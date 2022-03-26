@@ -79,10 +79,12 @@ A wallpaper engine web wallpaper.
 
 ## 特性/支持
 
-- [x] 自定义壁纸
+- [x] 自定义壁纸、页面（需要改写css）
 - [x] Checkbox
-- [ ] 页面布局
 - [ ] 作业/公告更新提示
+- [ ] 可拖动的div
+- [ ] 用户添加说明/额外的Note
+- [ ] 隐藏部分items
 
 ## 关于源代码
 
