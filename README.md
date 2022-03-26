@@ -71,11 +71,16 @@ A wallpaper engine web wallpaper.
 
 `courses`可以有很多，请按照需要的顺序排放它们。
 
+### 其他说明
+
+您可以自行修改css和html文件。在壁纸右下角有一个蓝色的`Refresh`，点击它会重新拉取通知。
+
 ## 特性/支持
 
 - [x] 自定义壁纸
 - [x] Checkbox
 - [ ] 页面布局
+- [ ] 作业/公告更新提示
 
 ## 关于源代码
 
