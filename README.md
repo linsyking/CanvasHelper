@@ -11,11 +11,11 @@ A wallpaper engine web wallpaper.
 
 ### 双栏
 
-![](http://www.yydbxx.cn:3000/King/materials/raw/branch/master/Canvas%20Helper/img/double.png)
+![](http://www.yydbxx.cn:3000/King/materials/raw/branch/master/Canvas%20Helper/img/2col.png)
 
 ### 单栏
 
-![](http://www.yydbxx.cn:3000/King/materials/raw/branch/master/Canvas%20Helper/img/single.png)
+![](http://www.yydbxx.cn:3000/King/materials/raw/branch/master/Canvas%20Helper/img/1col.png)
 
 **所有勾选的选项会同步到我们服务器端**
 
