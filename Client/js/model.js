@@ -2,9 +2,14 @@ function sendreq() {
     $.ajax("http://yydbxx.cn/test/canvas/make.php", {
         data: window.udata,
         contentType: 'application/json',
-        type: 'POST'
+        type: 'POST',
+        error: function(data){
+            $("#b2").hide();
+            $("#b1").text("Please check your Internet connection");
+            window.isupdating=0;
+        }
     }).done(function (data) {
-        window.isupdating=0;
+        window.isupdating = 0;
         let mystr = String(data);
         let len = mystr.split('\n').length;
         const fall = 20;
@@ -17,18 +22,18 @@ function sendreq() {
             let an = getIndex(mystr, "\n");
             let pos = an[fall];
             let lastc = mystr.lastIndexOf("</p>", pos);
-            let dl = mystr.substring(lastc+5);
+            let dl = mystr.substring(lastc + 5);
             $("#b2").html(dl);
-            $("#b1").html(mystr.substring(0, lastc +4));
+            $("#b1").html(mystr.substring(0, lastc + 4));
         }
         $("#container").html(data);
         $("input[type='checkbox']").change(function () {
             // Send check request
             const juser = JSON.parse(window.udata);
-            let smsg = {"bid":juser['bid'], "check":this.id, "action":""};
+            let smsg = { "bid": juser['bid'], "check": this.id, "action": "" };
             if (this.checked) {
                 // Check
-                smsg['action']='add';
+                smsg['action'] = 'add';
                 $.ajax("http://yydbxx.cn/test/canvas/check.php", {
                     data: JSON.stringify(smsg),
                     contentType: 'application/json',
@@ -36,7 +41,7 @@ function sendreq() {
                 });
             } else {
                 // Cancel
-                smsg['action']='del';
+                smsg['action'] = 'del';
                 $.ajax("http://yydbxx.cn/test/canvas/check.php", {
                     data: JSON.stringify(smsg),
                     contentType: 'application/json',
@@ -69,7 +74,9 @@ window.wallpaperPropertyListener = {
                 $.get('file:///' + properties.user_data.value + '/user_data.json', function (data) {
                     window.udata = data;
                     sendreq();
-                }, 'text');
+                }, 'text').fail(function () {
+                    $("#b1").html("Cannot read <i>user_data.json</i> file, please double check the <b>directory</b> you set.");
+                });
             }
         }
     },
@@ -78,11 +85,11 @@ window.wallpaperPropertyListener = {
 $(document).ready(function () {
     $('#b2').hide();
     $(".refresh").click(function () {
-        if(window.isupdating){
+        if (window.isupdating) {
             $("#b1").html("It's updating now...");
             return;
         }
-        window.isupdating=1;
+        window.isupdating = 1;
         $('#b2').hide();
         $("#b1").html("Updating...");
         sendreq();

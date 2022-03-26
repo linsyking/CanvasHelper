@@ -17,8 +17,38 @@ import os
 def sha1(str: str):
     return hashlib.sha1(str.encode(encoding='utf-8', errors='ignore')).hexdigest()
 
-
 now = datetime.now()
+
+def num2ch(f:int):
+    s=['一','二','三','四','五','六','日']
+    return s[f]
+
+def relative_date(rtime:datetime):
+    # Generate relative date like "下周五 xxx"
+    # or "本周x xxx"/"明天"/"后天"
+    delta = rtime.replace(hour=0,minute=0,second=0,microsecond=0) - now.replace(hour=0,minute=0,second=0,microsecond=0)
+    wp = int((delta.days+now.weekday())/7)
+    if(wp == 0):
+        # Current week
+        if(delta.days == 0):
+            return f"今天{rtime.strftime('%H:%M:%S')}"
+        elif delta.days ==1:
+            return f"明天{rtime.strftime('%H:%M:%S')}"
+        elif delta.days ==2:
+            return f"后天{rtime.strftime('%H:%M:%S')}"
+        else:
+            return f"本周{num2ch(rtime.weekday())}{rtime.strftime('%H:%M:%S')}"
+    elif wp ==1:
+        if delta.days ==1:
+            return f"明天{rtime.strftime('%H:%M:%S')}"
+        elif delta.days ==2:
+            return f"后天{rtime.strftime('%H:%M:%S')}"
+        return f"下周{num2ch(rtime.weekday())}{rtime.strftime('%H:%M:%S')}"
+    elif wp ==2:
+        return f"下下周{num2ch(rtime.weekday())}{rtime.strftime('%H:%M:%S')}"
+    else:
+        return f'{rtime}'
+
 ori = sys.argv
 bid = sys.argv[1]
 hashbid = sha1(bid)
@@ -90,6 +120,7 @@ class apilink:
             dttime = datetime.strptime(ass['due_at'], '%Y-%m-%dT%H:%M:%SZ')
             if(dttime < now):
                 continue
+            dttime=relative_date(dttime)
             if(f"ass{ass['id']}" in usercheck):
                 self.output += f"<p><input type=\"checkbox\" id=\"ass{ass['id']}\" checked>{ass['name']}, Due: <b>{dttime}</b></p>\n"
             else:

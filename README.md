@@ -114,7 +114,7 @@ A wallpaper engine web wallpaper.
 - [ ] 可拖动的div
 - [ ] 用户添加说明/额外的Note
 - [ ] 隐藏部分items
-- [ ] 更好的Due提示
+- [x] 更好的Due提示
 
 ## 关于源代码
 
