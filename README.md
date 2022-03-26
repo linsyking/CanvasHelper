@@ -75,6 +75,8 @@ A wallpaper engine web wallpaper.
 
 您可以自行修改css和html文件。在壁纸右下角有一个蓝色的`Refresh`，点击它会重新拉取通知。
 
+设置好文件夹后如果无法显示，可能需要重新加载壁纸。
+
 ## 特性/支持
 
 - [x] 自定义壁纸
