@@ -36,7 +36,8 @@ body {
     border-radius: 10px;
     opacity: 0.9;
     box-shadow: 0 0 0 5px white;
-    overflow: hidden;
+    /* overflow: hidden; */
+    overflow-y: hidden;
 
     padding: 10px;
     font-size: 17px;

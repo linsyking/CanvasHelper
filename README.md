@@ -13,9 +13,13 @@ A wallpaper engine web wallpaper.
 
 ![](http://www.yydbxx.cn:3000/King/materials/raw/branch/master/Canvas%20Helper/img/2col.png)
 
-### 单栏
+### 单栏居中
 
-![](http://www.yydbxx.cn:3000/King/materials/raw/branch/master/Canvas%20Helper/img/1col.png)
+![](http://www.yydbxx.cn:3000/King/materials/raw/branch/master/Canvas%20Helper/img/1center.png)
+
+### 单栏靠右
+
+![](http://www.yydbxx.cn:3000/King/materials/raw/branch/master/Canvas%20Helper/img/1right.png)
 
 **所有勾选的选项会同步到我们服务器端**
 
@@ -99,6 +103,10 @@ A wallpaper engine web wallpaper.
 - dis: 讨论
 
 `courses`可以有很多，请按照需要的顺序排放它们。
+
+### 自定义壁纸
+
+可以选择您自己的壁纸来展示。
 
 ### 其他说明
 

@@ -17,37 +17,42 @@ import os
 def sha1(str: str):
     return hashlib.sha1(str.encode(encoding='utf-8', errors='ignore')).hexdigest()
 
+
 now = datetime.now()
 
-def num2ch(f:int):
-    s=['一','二','三','四','五','六','日']
+
+def num2ch(f: int):
+    s = ['一', '二', '三', '四', '五', '六', '日']
     return s[f]
 
-def relative_date(rtime:datetime):
+
+def relative_date(rtime: datetime):
     # Generate relative date like "下周五 xxx"
     # or "本周x xxx"/"明天"/"后天"
-    delta = rtime.replace(hour=0,minute=0,second=0,microsecond=0) - now.replace(hour=0,minute=0,second=0,microsecond=0)
+    delta = rtime.replace(hour=0, minute=0, second=0, microsecond=0) - \
+        now.replace(hour=0, minute=0, second=0, microsecond=0)
     wp = int((delta.days+now.weekday())/7)
     if(wp == 0):
         # Current week
         if(delta.days == 0):
             return f"今天{rtime.strftime('%H:%M:%S')}"
-        elif delta.days ==1:
+        elif delta.days == 1:
             return f"明天{rtime.strftime('%H:%M:%S')}"
-        elif delta.days ==2:
+        elif delta.days == 2:
             return f"后天{rtime.strftime('%H:%M:%S')}"
         else:
             return f"本周{num2ch(rtime.weekday())}{rtime.strftime('%H:%M:%S')}"
-    elif wp ==1:
-        if delta.days ==1:
+    elif wp == 1:
+        if delta.days == 1:
             return f"明天{rtime.strftime('%H:%M:%S')}"
-        elif delta.days ==2:
+        elif delta.days == 2:
             return f"后天{rtime.strftime('%H:%M:%S')}"
         return f"下周{num2ch(rtime.weekday())}{rtime.strftime('%H:%M:%S')}"
-    elif wp ==2:
+    elif wp == 2:
         return f"下下周{num2ch(rtime.weekday())}{rtime.strftime('%H:%M:%S')}"
     else:
         return f'{rtime}'
+
 
 ori = sys.argv
 bid = sys.argv[1]
@@ -69,6 +74,7 @@ usercheck = []
 if os.path.exists(f'./data/{hashbid}/userdata.json'):
     with open(f'./data/{hashbid}/userdata.json', 'r', encoding='utf-8', errors='ignore') as f:
         usercheck = json.load(f)
+
 
 class apilink:
     def __init__(self, course_id, course_name, course_type) -> None:
@@ -113,19 +119,18 @@ class apilink:
                     if k['due_at']:
                         self.ass_data.append(k)
         self.ass_data.sort(key=self._cmp_ass, reverse=True)
-        self.output = f'<h2>{self.cname}: 近期作业</h2>'+'\n'
+        self.output = f'<h2>{self.cname}: 近期作业</h2>\n'
         if(len(self.ass_data) == 0):
             self.output += "暂无作业\n"
         for ass in self.ass_data:
             dttime = datetime.strptime(ass['due_at'], '%Y-%m-%dT%H:%M:%SZ')
             if(dttime < now):
                 continue
-            dttime=relative_date(dttime)
+            dttime = relative_date(dttime)
             if(f"ass{ass['id']}" in usercheck):
                 self.output += f"<p><input type=\"checkbox\" id=\"ass{ass['id']}\" checked>{ass['name']}, Due: <b>{dttime}</b></p>\n"
             else:
                 self.output += f"<p><input type=\"checkbox\" id=\"ass{ass['id']}\">{ass['name']}, Due: <b>{dttime}</b></p>\n"
-
 
     def collect_announcement(self):
         self.cstate = 'Announcement'
@@ -133,7 +138,7 @@ class apilink:
         self.raw = anr
         anr = json.loads(anr)
         self.ann_data = anr
-        self.output = f'<h2>{self.cname}: 近期公告</h2>'+'\n'
+        self.output = f'<h2>{self.cname}: 近期公告</h2>\n'
         maximum = 4
         if(len(anr) == 0):
             self.output += "暂无公告\n"
@@ -152,7 +157,7 @@ class apilink:
         self.raw = dis
         dis = json.loads(dis)
         self.dis_data = []
-        self.output = f'<h2>{self.cname}: 近期讨论</h2>'+'\n'
+        self.output = f'<h2>{self.cname}: 近期讨论</h2>\n'
         for d in dis:
             if d['locked']:
                 continue
@@ -164,6 +169,9 @@ class apilink:
                 self.output += f"<p><input type=\"checkbox\" id=\"dis{d['id']}\" checked>{d['title']}</p>\n"
             else:
                 self.output += f"<p><input type=\"checkbox\" id=\"dis{d['id']}\">{d['title']}</p>\n"
+
+    def error(self):
+        print(f'<h2>{self.cname}: 发生错误</h2>\n<p>{self.raw}</p>\n')
 
     def print_out(self):
         print(self.output)
@@ -182,7 +190,10 @@ except:
 
 print("<h1>Canvas Notifications</h1>")
 for i in allc:
-    i.run()
+    try:
+        i.run()
+    except:
+        i.error()
 
 for i in allc:
     i.print_out()

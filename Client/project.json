@@ -1,11 +1,42 @@
 {
 	"contentrating" : "Everyone",
-	"description" : "Show Canvas notifications",
+	"description" : "Show Canvas notifications\nUpdate: Add more layout choices\nUpdate: set some error messages",
 	"file" : "index.html",
 	"general" : 
 	{
 		"properties" : 
 		{
+			"background_image" : 
+			{
+				"index" : 2,
+				"order" : 102,
+				"text" : "background_image",
+				"type" : "file",
+				"value" : ""
+			},
+			"layout" : 
+			{
+				"index" : 1,
+				"options" : 
+				[
+					{
+						"label" : "两栏平铺",
+						"value" : "1"
+					},
+					{
+						"label" : "一栏靠右",
+						"value" : "2"
+					},
+					{
+						"label" : "一栏居中",
+						"value" : "3"
+					}
+				],
+				"order" : 101,
+				"text" : "layout",
+				"type" : "combo",
+				"value" : "2"
+			},
 			"schemecolor" : 
 			{
 				"order" : 0,
@@ -27,8 +58,8 @@
 	"preview" : "preview.jpg",
 	"tags" : [ "Technology" ],
 	"title" : "Canvas Helper",
-	"type" : "Web",
-	"version" : 2,
+	"type" : "web",
+	"version" : 3,
 	"visibility" : "public",
 	"workshopid" : "2784688149",
 	"workshopurl" : "steam://url/CommunityFilePage/2784688149"
