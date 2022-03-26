@@ -43,9 +43,17 @@ A wallpaper engine web wallpaper.
 
 ### 第四步：配置用户文件
 
-在壁纸配置中，配置`user_data`变量。选择一个文件夹，这个文件夹下需要包含待会我们配置的文件。
+在壁纸配置中，配置`user_data`变量。选择文件夹为**该壁纸所在的目录**（查看壁纸目录的方法：在Wallpaper Engine中右键，在资源管理器中打开，选择这个目录）。
 
-在这个选择的文件目录下创建一个名为`user_data.json`的文件，然后向其中添加以下内容（下面只是示例）：
+<img src="http://www.yydbxx.cn:3000/King/materials/raw/branch/master/Canvas%20Helper/img/wppath.png" style="zoom:50%;" />
+
+**更新：重要提醒：这个文件夹务必选择为壁纸所在目录，否则将无法访问到该文件。**
+
+在这个目录下创建一个名为`user_data.json`的文件（**必须为该名称**）
+
+<img src="http://www.yydbxx.cn:3000/King/materials/raw/branch/master/Canvas%20Helper/img/explorer.png" style="zoom:67%;" />
+
+然后向其中添加以下内容（下面只是示例）：
 
 ```json
 {
