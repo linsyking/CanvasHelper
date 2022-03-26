@@ -39,7 +39,7 @@ A wallpaper engine web wallpaper.
 
 ### 第三步：在Canvas中找到课程的课程代码
 
-选择您需要查看的课程，在课程主页，查看网页地址，应该是形如`https://xxx/courses/yyyy`的链接。其中`yyyy`就是该课的课程代码。
+选择您需要查看的课程，在课程主页，查看网页地址，应该是形如`https://umjicanvas.com/courses/2469`的链接。其中`2469`就是该课的课程代码。
 
 ### 第四步：配置用户文件
 
@@ -56,6 +56,27 @@ A wallpaper engine web wallpaper.
             "course_id": 2469(课程代号),
             "course_name": "课程名称",
             "type": "类型，ass/ann/dis"
+        }
+    ]
+}
+```
+
+个人使用的`user_data.json`（其中的一部分，供参考）：
+
+```json
+{
+    "bid": "***",
+    "url": "https://umjicanvas.com/",
+    "courses": [
+        {
+            "course_id": 2469,
+            "course_name": "VY200",
+            "type": "ass"
+        },
+        {
+            "course_id": 2469,
+            "course_name": "VY200",
+            "type": "ann"
         }
     ]
 }
@@ -85,6 +106,7 @@ A wallpaper engine web wallpaper.
 - [ ] 可拖动的div
 - [ ] 用户添加说明/额外的Note
 - [ ] 隐藏部分items
+- [ ] 更好的Due提示
 
 ## 关于源代码
 
