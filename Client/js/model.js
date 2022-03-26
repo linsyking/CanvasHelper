@@ -1,3 +1,28 @@
+function updateCB() {
+    $("input").change(function () {
+        // Send check request
+        const juser = JSON.parse(window.udata);
+        let smsg = { "bid": juser['bid'], "check": this.id, "action": "" };
+        if (this.checked) {
+            // Check
+            smsg['action'] = 'add';
+            $.ajax("http://yydbxx.cn/test/canvas/check.php", {
+                data: JSON.stringify(smsg),
+                contentType: 'application/json',
+                type: 'POST'
+            });
+        } else {
+            // Cancel
+            smsg['action'] = 'del';
+            $.ajax("http://yydbxx.cn/test/canvas/check.php", {
+                data: JSON.stringify(smsg),
+                contentType: 'application/json',
+                type: 'POST'
+            });
+        }
+    });
+}
+
 function sendreq() {
     $.ajax("http://yydbxx.cn/test/canvas/make.php", {
         data: window.udata,
@@ -9,12 +34,13 @@ function sendreq() {
             window.isupdating = 0;
         }
     }).done(function (data) {
+        window.isupdating = 0;
         if (window.dpmode != 1) {
             // One column
             $("#b1").html(data);
+            updateCB();
             return;
         }
-        window.isupdating = 0;
         let mystr = String(data);
         let len = mystr.split('\n').length;
         const fall = 20;
@@ -36,29 +62,7 @@ function sendreq() {
             }
             $("#b1").html(mystr.substring(0, lastc + 4));
         }
-        $("#container").html(data);
-        $("input[type='checkbox']").change(function () {
-            // Send check request
-            const juser = JSON.parse(window.udata);
-            let smsg = { "bid": juser['bid'], "check": this.id, "action": "" };
-            if (this.checked) {
-                // Check
-                smsg['action'] = 'add';
-                $.ajax("http://yydbxx.cn/test/canvas/check.php", {
-                    data: JSON.stringify(smsg),
-                    contentType: 'application/json',
-                    type: 'POST'
-                });
-            } else {
-                // Cancel
-                smsg['action'] = 'del';
-                $.ajax("http://yydbxx.cn/test/canvas/check.php", {
-                    data: JSON.stringify(smsg),
-                    contentType: 'application/json',
-                    type: 'POST'
-                });
-            }
-        });
+        updateCB();
     });
 }
 
@@ -79,11 +83,11 @@ function getIndex(str, s) {
 
 window.wallpaperPropertyListener = {
     applyUserProperties: function (properties) {
-        if(properties.background_image){
-            if(properties.background_image.value.length>5){
+        if (properties.background_image) {
+            if (properties.background_image.value.length > 5) {
                 // User customized background image
-                let fpath ='file:///' + properties.background_image.value;
-                $("body").css("background-image","url("+fpath+")");
+                let fpath = 'file:///' + properties.background_image.value;
+                $("body").css("background-image", "url(" + fpath + ")");
             }
         }
         if (properties.user_data) {
