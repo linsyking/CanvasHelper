@@ -11,11 +11,11 @@ A wallpaper engine web wallpaper.
 
 ### 双栏
 
-![](img/double.png)
+![](http://www.yydbxx.cn:3000/King/materials/raw/branch/master/Canvas%20Helper/img/double.png)
 
 ### 单栏
 
-![](img/single.png)
+![](http://www.yydbxx.cn:3000/King/materials/raw/branch/master/Canvas%20Helper/img/single.png)
 
 **所有勾选的选项会同步到我们服务器端**
 
@@ -27,7 +27,7 @@ A wallpaper engine web wallpaper.
 
 在 账户>设置 中找到“允许融入使用的外部软件”选项，创建一个新的许可证。过期栏请留空。
 
-<img src="img/access.png" style="zoom:50%;" />
+<img src="http://www.yydbxx.cn:3000/King/materials/raw/branch/master/Canvas%20Helper/img/access.png" style="zoom:50%;" />
 
 请保存“令牌”。
 
