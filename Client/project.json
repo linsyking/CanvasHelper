@@ -1,0 +1,29 @@
+{
+	"file" : "index.html",
+	"general" : 
+	{
+		"properties" : 
+		{
+			"schemecolor" : 
+			{
+				"order" : 0,
+				"text" : "ui_browse_properties_scheme_color",
+				"type" : "color",
+				"value" : "0 0 0"
+			},
+			"user_data" : 
+			{
+				"index" : 0,
+				"mode" : "ondemand",
+				"order" : 100,
+				"text" : "user_data",
+				"type" : "directory",
+				"value" : ""
+			}
+		}
+	},
+	"preview" : "preview.jpg",
+	"title" : "Canvas Helper",
+	"type" : "web",
+	"version" : 0
+}

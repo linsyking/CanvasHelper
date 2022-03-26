@@ -1,0 +1,157 @@
+# coding=utf-8
+'''
+@Author: King
+@Date: 2022-03-24 星期四 19-30-43
+@Email: linsy_king@sjtu.edu.cn
+@Url: http://www.yydbxx.cn
+'''
+
+from datetime import datetime
+import requests
+import json
+import sys
+import hashlib
+import os
+
+
+def sha1(str: str):
+    return hashlib.sha1(str.encode(encoding='utf-8', errors='ignore')).hexdigest()
+
+
+now = datetime.now()
+ori = sys.argv
+bid = sys.argv[1]
+hashbid = sha1(bid)
+ucommand = ''
+
+with open(f'./data/{hashbid}/c.json', 'r', encoding='utf-8', errors='ignore') as f:
+    ucommand = json.load(f)
+
+url = ucommand['url']
+if(url[-1] == '/'):
+    url = url[:-1]
+if(url[:4] != 'http'):
+    print("invalid url")
+    exit(0)
+
+usercheck = []
+
+if os.path.exists(f'./data/{hashbid}/userdata.json'):
+    with open(f'./data/{hashbid}/userdata.json', 'r', encoding='utf-8', errors='ignore') as f:
+        usercheck = json.load(f)
+
+class apilink:
+    def __init__(self, course_id, course_name, course_type) -> None:
+        self.headers = {
+            'Authorization': f'Bearer {bid}'
+        }
+        self.course = course_id
+        self.cname = course_name
+        self.course_type = course_type
+        self.assignment = f'{url}/api/v1/courses/{course_id}/assignment_groups?include[]=assignments&include[]=discussion_topic&exclude_response_fields[]=description&exclude_response_fields[]=rubric&override_assignment_dates=true'
+        self.announcement = f'{url}/api/v1/courses/{course_id}/discussion_topics?only_announcements=true'
+        self.discussion = f'{url}/api/v1/courses/{course_id}/discussion_topics?plain_messages=true&exclude_assignment_descriptions=true&exclude_context_module_locked_topics=true&order_by=recent_activity&include=all_dates'
+
+    def send(self, url):
+        return requests.get(url, headers=self.headers).content.decode(
+            encoding='utf-8', errors='ignore')
+
+    def _cmp_ass(self, el):
+        return el['due_at']
+
+    def run(self):
+        t = self.course_type
+        if t == "ass":
+            self.collect_assignment()
+        elif t == "ann":
+            self.collect_announcement()
+        elif t == "dis":
+            self.collect_discussion()
+        else:
+            print("Error")
+
+    def collect_assignment(self):
+        self.cstate = 'Assignment'
+        asr = self.send(self.assignment)
+        self.raw = asr
+        self.ass_data = []
+        asr = json.loads(asr)
+        for big in asr:
+            a = big['assignments']
+            if a:
+                for k in a:
+                    if k['due_at']:
+                        self.ass_data.append(k)
+        self.ass_data.sort(key=self._cmp_ass, reverse=True)
+        self.output = f'<h2>{self.cname}: 近期作业</h2>'+'\n'
+        if(len(self.ass_data) == 0):
+            self.output += "暂无作业\n"
+        for ass in self.ass_data:
+            dttime = datetime.strptime(ass['due_at'], '%Y-%m-%dT%H:%M:%SZ')
+            if(dttime < now):
+                continue
+            if(f"ass{ass['id']}" in usercheck):
+                self.output += f"<p><input type=\"checkbox\" id=\"ass{ass['id']}\" checked>{ass['name']}, Due: <b>{dttime}</b></p>\n"
+            else:
+                self.output += f"<p><input type=\"checkbox\" id=\"ass{ass['id']}\">{ass['name']}, Due: <b>{dttime}</b></p>\n"
+
+
+    def collect_announcement(self):
+        self.cstate = 'Announcement'
+        anr = self.send(self.announcement)
+        self.raw = anr
+        anr = json.loads(anr)
+        self.ann_data = anr
+        self.output = f'<h2>{self.cname}: 近期公告</h2>'+'\n'
+        maximum = 4
+        if(len(anr) == 0):
+            self.output += "暂无公告\n"
+        for an in anr:
+            if(f"ann{an['id']}" in usercheck):
+                self.output += f"<p><input type=\"checkbox\" id=\"ann{an['id']}\" checked>{an['title']}</p>\n"
+            else:
+                self.output += f"<p><input type=\"checkbox\" id=\"ann{an['id']}\">{an['title']}</p>\n"
+            maximum -= 1
+            if(maximum == 0):
+                break
+
+    def collect_discussion(self):
+        self.cstate = 'Discussion'
+        dis = self.send(self.discussion)
+        self.raw = dis
+        dis = json.loads(dis)
+        self.dis_data = []
+        self.output = f'<h2>{self.cname}: 近期讨论</h2>'+'\n'
+        for d in dis:
+            if d['locked']:
+                continue
+            self.dis_data.append(d)
+        if(len(self.dis_data) == 0):
+            self.output += "暂无讨论\n"
+        for d in self.dis_data:
+            if(f"dis{d['id']}" in usercheck):
+                self.output += f"<p><input type=\"checkbox\" id=\"dis{d['id']}\" checked>{d['title']}</p>\n"
+            else:
+                self.output += f"<p><input type=\"checkbox\" id=\"dis{d['id']}\">{d['title']}</p>\n"
+
+    def print_out(self):
+        print(self.output)
+
+
+courses = ucommand['courses']
+allc = []
+
+try:
+    for course in courses:
+        allc.append(apilink(course['course_id'],
+                    course['course_name'], course['type']))
+except:
+    print('invalid courses')
+    exit(0)
+
+print("<h1>Canvas Notifications</h1>")
+for i in allc:
+    i.run()
+
+for i in allc:
+    i.print_out()
