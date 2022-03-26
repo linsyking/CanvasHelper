@@ -1,6 +1,6 @@
 {
     "bid": "这里填充您的Access Token",
-    "url": "这里填充Canvas网址，如https://umjicanvas.com/，或https://oc.sjtu.edu.cn/",
+    "url": "这里填充Canvas网址，如https://umjicanvas.com/或https://oc.sjtu.edu.cn/",
     "courses": [
         {
             "course_id": 2469(课程代号),
