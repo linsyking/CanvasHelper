@@ -1,4 +1,6 @@
 {
+	"contentrating" : "Everyone",
+	"description" : "Show Canvas notifications",
 	"file" : "index.html",
 	"general" : 
 	{
@@ -23,7 +25,11 @@
 		}
 	},
 	"preview" : "preview.jpg",
+	"tags" : [ "Technology" ],
 	"title" : "Canvas Helper",
-	"type" : "web",
-	"version" : 0
+	"type" : "Web",
+	"version" : 2,
+	"visibility" : "public",
+	"workshopid" : "2784688149",
+	"workshopurl" : "steam://url/CommunityFilePage/2784688149"
 }
