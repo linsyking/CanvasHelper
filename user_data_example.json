@@ -1,6 +1,6 @@
 {
-	"title": "Canvas通知",
-	"timeformat": "relative",
+    "title": "Canvas通知",
+    "timeformat": "relative",
     "bid": "***",
     "url": "https://umjicanvas.com/",
     "courses": [
@@ -8,20 +8,20 @@
             "course_id": 2469,
             "course_name": "VY200",
             "type": "ass",
-			"timeformat": "origin"
+            "timeformat": "origin"
         },
-		{
+        {
             "course_id": 2405,
             "course_name": "VJ100",
             "type": "ass",
-			"timeformat": "%Y.%m.%d"
+            "timeformat": "%Y.%m.%d"
         },
-		{
+        {
             "course_id": 2397,
             "course_name": "VC211",
             "type": "ass"
         },
-		{
+        {
             "course_id": 2397,
             "course_name": "VC211",
             "type": "ann"
@@ -30,7 +30,7 @@
             "course_id": 2469,
             "course_name": "VY200",
             "type": "ann",
-			"maxshow": 5
+            "maxshow": 5
         },
         {
             "course_id": 2469,
