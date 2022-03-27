@@ -15,6 +15,7 @@ import os
 
 g_out=""
 g_error=False
+g_tformat="relative"
 
 def leave():
     # Error occurred, leaving
@@ -49,6 +50,15 @@ def num2ch(f: int):
     s = ['一', '二', '三', '四', '五', '六', '日']
     return s[f]
 
+
+def time_format_control(rtime: datetime, format):
+    if(format=="origin"):
+        return rtime
+    elif format=="relative":
+        return relative_date(rtime)
+    else:
+        # Fallback
+        return rtime.strftime(format)
 
 def relative_date(rtime: datetime):
     # Generate relative date like "下周五 xxx"
@@ -102,6 +112,9 @@ if os.path.exists(f'./data/{hashbid}/userdata.json'):
 
     usercheck = user_custom['checks']
 
+if "timeformat" in ucommand:
+    g_tformat = ucommand['timeformat']
+
 class apilink:
     def __init__(self, course_id, course_name, course_type, otherdata={}) -> None:
         self.headers = {
@@ -153,7 +166,10 @@ class apilink:
             dttime = datetime.strptime(ass['due_at'], '%Y-%m-%dT%H:%M:%SZ')
             if(dttime < now):
                 continue
-            dttime = relative_date(dttime)
+            tformat=g_tformat
+            if "timeformat" in self.other:
+                tformat = self.other['timeformat']
+            dttime = time_format_control(dttime, tformat)
             if(f"ass{ass['id']}" in usercheck):
                 self.output += f"<p><input type=\"checkbox\" id=\"ass{ass['id']}\" checked>{ass['name']}, Due: <b>{dttime}</b></p>\n"
             else:
@@ -215,12 +231,8 @@ allc = []
 
 try:
     for course in courses:
-        omsg={}
-        if "maxshow" in course:
-            omsg['maxshow'] = course['maxshow'];
-        
         allc.append(apilink(course['course_id'],
-                    course['course_name'], course['type'], omsg))
+                    course['course_name'], course['type'], course))
 except:
     print_own('invalid courses')
     leave()
