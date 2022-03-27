@@ -21,6 +21,12 @@ A wallpaper engine web wallpaper.
 
 ![](http://www.yydbxx.cn:3000/King/materials/raw/branch/master/Canvas%20Helper/img/1right.png)
 
+### 移动/调整大小
+
+![](http://www.yydbxx.cn:3000/King/materials/raw/branch/master/Canvas%20Helper/img/resize.gif)
+
+若您无法使用此功能，请更新壁纸到最新版本（先卸载当前壁纸，重新下载安装）。
+
 **所有勾选的选项会同步到我们服务器端**
 
 ## 使用说明
@@ -120,7 +126,7 @@ A wallpaper engine web wallpaper.
 - [x] Checkbox
 - [ ] 作业/公告更新提示
 - [x] 可拖动的div
-- [ ] 可调整大小的div
+- [x] 可调整大小的div
 - [ ] 用户添加说明/额外的Note
 - [ ] 隐藏部分items
 - [x] 更好的Due提示
