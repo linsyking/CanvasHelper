@@ -1,64 +1,9 @@
-html,
-body {
-    margin: 0px;
-    padding: 0px;
-    overflow: hidden;
-    height: 100%;
-    width: 100%;
-    background-color: rgb(255, 255, 255);
-}
-
-body {
-    background-image: url("./img/bg.jpg");
-    background-repeat: no-repeat;
-    background-position: center bottom;
-    background-size: cover;
-    background-attachment: fixed;
-}
-
-.mainwindow {
-    font-family: "Poppins", sans-serif;
-    height: 100%;
-    width: 100%;
-    margin-left: 3%;
-    margin-right: 3%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    align-items: center;
-    z-index: 1;
-}
-
 .box{
-    width: 30%;
-    height: 75%;
-    background: white;
-    border-radius: 10px;
-    opacity: 0.9;
-    box-shadow: 0 0 0 5px white;
-    /* overflow: hidden; */
-    overflow-y: hidden;
-
-    padding: 10px;
-    font-size: 17px;
+    /* Box */
+    /* height: 75%;
+    font-size: 17px; */
 }
 
-.butt{
-    width: auto;
-    height: 50px;
-}
-
-.refresh{
-    font-size: 8pt;
-    color: rgb(70, 181, 214);
-}
-
-.fo{
-    position: absolute;
-    bottom: 65px;
-    height: 20px;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
+.rightbox{
+    /* right: 10%; */
 }

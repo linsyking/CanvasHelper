@@ -119,7 +119,8 @@ A wallpaper engine web wallpaper.
 - [x] 自定义壁纸、页面（需要改写css）
 - [x] Checkbox
 - [ ] 作业/公告更新提示
-- [ ] 可拖动的div
+- [x] 可拖动的div
+- [ ] 可调整大小的div
 - [ ] 用户添加说明/额外的Note
 - [ ] 隐藏部分items
 - [x] 更好的Due提示
@@ -129,6 +130,12 @@ A wallpaper engine web wallpaper.
 `Server`文件夹包含服务器端代码。
 
 `Client`文件夹包含客户端代码（Wallpaper engine项目文件）
+
+**更新之后原本Client的大部分迁移到了Server端（方便更新）**，因为可能频繁更新，所以不在本仓库保存，需要查看最新客户端源码可以从以下地址下载：
+
+`https://yydbxx.cn/test/canvas/res/model.js`
+
+`https://yydbxx.cn/test/canvas/res/style.css`
 
 有问题发issue，或者发pr，谢谢。
 
