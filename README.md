@@ -79,26 +79,7 @@ A wallpaper engine web wallpaper.
 }
 ```
 
-个人使用的`user_data.json`（其中的一部分，供参考）：
-
-```json
-{
-    "bid": "***",
-    "url": "https://umjicanvas.com/",
-    "courses": [
-        {
-            "course_id": 2469,
-            "course_name": "VY200",
-            "type": "ass"
-        },
-        {
-            "course_id": 2469,
-            "course_name": "VY200",
-            "type": "ann"
-        }
-    ]
-}
-```
+可以参考本仓库的`user_data_example.json`示例文件。
 
 说明：
 
