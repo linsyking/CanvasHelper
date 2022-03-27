@@ -13,6 +13,30 @@ import sys
 import hashlib
 import os
 
+g_out=""
+g_error=False
+
+def leave():
+    # Error occurred, leaving
+    global g_error
+    g_error=True
+    dump_out()
+    exit(0)
+
+def dump_out():
+    # Global once
+    # Cache if no error
+    if not g_error:
+        with open(f'./data/{hashbid}/cache.json', 'w', encoding='utf-8', errors='ignore') as f:
+            f.write("<i>(Cached file, real-time data is still loading...)</i>\n"+g_out[:-1])
+    else:
+        if os.path.exists(f'./data/{hashbid}/cache.json'):
+            os.remove(f'./data/{hashbid}/cache.json')
+    print(g_out[:-1], end="")
+
+def print_own(mystr):
+    global g_out
+    g_out+=mystr+"\n"
 
 def sha1(str: str):
     return hashlib.sha1(str.encode(encoding='utf-8', errors='ignore')).hexdigest()
@@ -66,18 +90,20 @@ url = ucommand['url']
 if(url[-1] == '/'):
     url = url[:-1]
 if(url[:4] != 'http'):
-    print("invalid url")
-    exit(0)
+    print_own("invalid url")
+    leave()
 
-usercheck = []
+user_custom={}
+usercheck=[]
 
 if os.path.exists(f'./data/{hashbid}/userdata.json'):
     with open(f'./data/{hashbid}/userdata.json', 'r', encoding='utf-8', errors='ignore') as f:
-        usercheck = json.load(f)
+        user_custom = json.load(f)
 
+    usercheck = user_custom['checks']
 
 class apilink:
-    def __init__(self, course_id, course_name, course_type) -> None:
+    def __init__(self, course_id, course_name, course_type, otherdata={}) -> None:
         self.headers = {
             'Authorization': f'Bearer {bid}'
         }
@@ -87,6 +113,7 @@ class apilink:
         self.assignment = f'{url}/api/v1/courses/{course_id}/assignment_groups?include[]=assignments&include[]=discussion_topic&exclude_response_fields[]=description&exclude_response_fields[]=rubric&override_assignment_dates=true'
         self.announcement = f'{url}/api/v1/courses/{course_id}/discussion_topics?only_announcements=true'
         self.discussion = f'{url}/api/v1/courses/{course_id}/discussion_topics?plain_messages=true&exclude_assignment_descriptions=true&exclude_context_module_locked_topics=true&order_by=recent_activity&include=all_dates'
+        self.other=otherdata
 
     def send(self, url):
         return requests.get(url, headers=self.headers).content.decode(
@@ -104,7 +131,7 @@ class apilink:
         elif t == "dis":
             self.collect_discussion()
         else:
-            print("Error")
+            print_own("Error")
 
     def collect_assignment(self):
         self.cstate = 'Assignment'
@@ -140,8 +167,12 @@ class apilink:
         self.ann_data = anr
         self.output = f'<h2>{self.cname}: 近期公告</h2>\n'
         maximum = 4
-        if(len(anr) == 0):
+        if("maxshow" in self.other):
+            maximum = int(self.other['maxshow']);
+
+        if(len(anr) == 0 or maximum<=0):
             self.output += "暂无公告\n"
+            return;
         for an in anr:
             if(f"ann{an['id']}" in usercheck):
                 self.output += f"<p><input type=\"checkbox\" id=\"ann{an['id']}\" checked>{an['title']}</p>\n"
@@ -171,10 +202,12 @@ class apilink:
                 self.output += f"<p><input type=\"checkbox\" id=\"dis{d['id']}\">{d['title']}</p>\n"
 
     def error(self):
-        print(f'<h2>{self.cname}: 发生错误</h2>\n<p>{self.raw}</p>\n')
+        global g_error
+        g_error=True
+        print_own(f'<h2>{self.cname}: 发生错误</h2>\n<p>{self.raw}</p>\n')
 
     def print_out(self):
-        print(self.output)
+        print_own(self.output)
 
 
 courses = ucommand['courses']
@@ -182,13 +215,20 @@ allc = []
 
 try:
     for course in courses:
+        omsg={}
+        if "maxshow" in course:
+            omsg['maxshow'] = course['maxshow'];
+        
         allc.append(apilink(course['course_id'],
-                    course['course_name'], course['type']))
+                    course['course_name'], course['type'], omsg))
 except:
-    print('invalid courses')
-    exit(0)
+    print_own('invalid courses')
+    leave()
 
-print("<h1>Canvas Notifications</h1>")
+if "title" in ucommand:
+    print_own(f"<h1>{ucommand['title']}</h1>")
+else:
+    print_own("<h1>Canvas Notifications</h1>")
 for i in allc:
     try:
         i.run()
@@ -197,3 +237,5 @@ for i in allc:
 
 for i in allc:
     i.print_out()
+
+dump_out()

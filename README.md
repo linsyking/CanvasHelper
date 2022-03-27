@@ -17,7 +17,7 @@ A wallpaper engine web wallpaper.
 
 ![](http://www.yydbxx.cn:3000/King/materials/raw/branch/master/Canvas%20Helper/img/1center.png)
 
-### 单栏靠右
+### 单栏靠右（默认，推荐，支持移动、调整大小）
 
 ![](http://www.yydbxx.cn:3000/King/materials/raw/branch/master/Canvas%20Helper/img/1right.png)
 
@@ -120,6 +120,39 @@ A wallpaper engine web wallpaper.
 
 设置好文件夹后如果无法显示，可能需要重新加载壁纸。
 
+### style.css
+
+如果您的显示屏显示有异常，如字体太小，可以设置您的`style.css`文件（在壁纸目录下）。
+
+```css
+input{
+    transform: scale(1); /* 调整勾选框大小，比例 */
+}
+
+.box{
+    font-size: 20pt; /* 调整文字大小 */
+}
+```
+
+各种对象的class:
+
+- 盒子容器：`.box`
+- 主盒子：`#b1`，副盒子：`#b2`
+- 缩放svg：`#resizeicon`
+- 待补充...
+
+### user_data
+
+一些高级属性：
+
+根节点下：
+
+- title：指定大标题内容（默认为`Canvas Notification`）
+
+courses节点下：
+
+- maxshow：最大显示数量，目前仅支持Announcement类别
+
 ## 特性/支持
 
 - [x] 自定义壁纸、页面（需要改写css）
@@ -130,6 +163,7 @@ A wallpaper engine web wallpaper.
 - [ ] 用户添加说明/额外的Note
 - [ ] 隐藏部分items
 - [x] 更好的Due提示
+- [x] Cache页面
 
 ## 关于源代码
 

@@ -30,7 +30,7 @@ if (!preg_match("#^[a-zA-Z0-9]+$#", $bid)) {
 }
 
 if (!preg_match("#^[a-zA-Z0-9]+$#", $cs)) {
-    echo "invalid bid";
+    echo "invalid checks";
     exit(0);
 }
 
@@ -38,30 +38,36 @@ $enc = sha1($bid);
 
 if (!file_exists('./data/' . $enc . '/userdata.json')) {
     $file = fopen('./data/' . $enc . '/userdata.json', 'w');
-    fwrite($file, "[\"" . $cs . "\"]");
+    // Save file
+    $rnew=["checks"=>[$cs]];
+    fwrite($file, json_encode($rnew));
     fclose($file);
 } else {
     $udata = json_decode(file_get_contents('./data/' . $enc . '/userdata.json'), true);
+    $udatac=&$udata['checks'];
     if ($act == 'add') {
-        foreach ($udata as $i) {
+        foreach ($udatac as $i) {
             if ($i == $cs) {
                 exit(0);
             }
         }
-        $udata[] = $cs;
+        $udatac[] = $cs;
         $file = fopen('./data/' . $enc . '/userdata.json', 'w');
         fwrite($file, json_encode($udata));
         fclose($file);
     }
     if ($act == 'del') {
-        $newp = [];
-        foreach ($udata as $i) {
+        $udatacp=$udata["checks"];
+        $udata['checks']=[];
+
+        foreach ($udatacp as $i) {
             if ($i != $cs) {
-                $newp[] = $i;
+                $udata['checks'][] = $i;
             }
         }
+
         $file = fopen('./data/' . $enc . '/userdata.json', 'w');
-        fwrite($file, json_encode($newp));
+        fwrite($file, json_encode($udata));
         fclose($file);
     }
 }
