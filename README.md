@@ -1,7 +1,7 @@
 # Canvas Helper
 A wallpaper engine web wallpaper.
 
-**说明：服务器端我们没有保存例如Access code等隐私数据，仅保存了加密（sha1）后的Access code和用户勾选的Checkbox信息**
+**说明：服务器端我们没有保存例如Access code等隐私数据，仅保存了加密（sha1）后的Access code、用户勾选的Checkbox信息和Box位置信息**
 
 **请不要恶意使用**
 
@@ -11,15 +11,15 @@ A wallpaper engine web wallpaper.
 
 ### 双栏
 
-![](http://www.yydbxx.cn:3000/King/materials/raw/branch/master/Canvas%20Helper/img/2col.png)
+![](https://s3.bmp.ovh/imgs/2022/03/ba8118a1289e7f42.png)
 
 ### 单栏居中
 
-![](http://www.yydbxx.cn:3000/King/materials/raw/branch/master/Canvas%20Helper/img/1center.png)
+![](https://s3.bmp.ovh/imgs/2022/03/7a0f1f8c96a4fad6.png)
 
 ### 单栏靠右（默认，推荐，支持移动、调整大小）
 
-![](http://www.yydbxx.cn:3000/King/materials/raw/branch/master/Canvas%20Helper/img/1right.png)
+![](https://s3.bmp.ovh/imgs/2022/03/3010e57ffbc1e233.png)
 
 ### 移动/调整大小
 
@@ -115,7 +115,7 @@ input{
 }
 ```
 
-各种对象的class:
+各种对象的Selector:
 
 - 盒子容器：`.box`
 - 主盒子：`#b1`，副盒子：`#b2`
@@ -156,9 +156,9 @@ courses节点下：
 
 **更新之后原本Client的大部分迁移到了Server端（方便更新）**，因为可能频繁更新，所以不在本仓库保存，需要查看最新客户端源码可以从以下地址下载：
 
-`https://yydbxx.cn/test/canvas/res/model.js`
+`http://yydbxx.cn/test/canvas/res/model.js`
 
-`https://yydbxx.cn/test/canvas/res/style.css`
+`http://yydbxx.cn/test/canvas/res/style.css`
 
 有问题发issue，或者发pr，谢谢。
 

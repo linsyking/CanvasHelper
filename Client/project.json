@@ -1,6 +1,6 @@
 {
 	"contentrating" : "Everyone",
-	"description" : "Show Canvas notifications\nUpdate: Add more layout choices\nUpdate: set some error messages",
+	"description" : "Show Canvas notifications\r\nUsage/Source code: https://github.com/linsyking/CanvasHelper",
 	"file" : "index.html",
 	"general" : 
 	{
@@ -24,11 +24,11 @@
 						"value" : "1"
 					},
 					{
-						"label" : "一栏靠右",
+						"label" : "单栏可移动",
 						"value" : "2"
 					},
 					{
-						"label" : "一栏居中",
+						"label" : "单栏居中",
 						"value" : "3"
 					}
 				],
@@ -59,7 +59,7 @@
 	"tags" : [ "Technology" ],
 	"title" : "Canvas Helper",
 	"type" : "web",
-	"version" : 3,
+	"version" : 6,
 	"visibility" : "public",
 	"workshopid" : "2784688149",
 	"workshopurl" : "steam://url/CommunityFilePage/2784688149"
