@@ -13,13 +13,13 @@ A wallpaper engine web wallpaper.
 
 ![](https://s3.bmp.ovh/imgs/2022/03/ba8118a1289e7f42.png)
 
+### 单栏可移动（默认，推荐，支持移动、调整大小）
+
+![](https://s3.bmp.ovh/imgs/2022/03/3010e57ffbc1e233.png)
+
 ### 单栏居中
 
 ![](https://s3.bmp.ovh/imgs/2022/03/7a0f1f8c96a4fad6.png)
-
-### 单栏靠右（默认，推荐，支持移动、调整大小）
-
-![](https://s3.bmp.ovh/imgs/2022/03/3010e57ffbc1e233.png)
 
 ### 移动/调整大小
 
