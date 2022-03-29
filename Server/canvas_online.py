@@ -6,7 +6,7 @@
 @Url: http://www.yydbxx.cn
 '''
 
-from datetime import datetime
+from datetime import datetime, timedelta
 import requests
 import json
 import sys
@@ -45,13 +45,14 @@ def sha1(str: str):
 
 now = datetime.now()
 
-
 def num2ch(f: int):
     s = ['一', '二', '三', '四', '五', '六', '日']
     return s[f]
 
 
 def time_format_control(rtime: datetime, format):
+    # Change timezone
+    rtime = rtime + timedelta(hours=8)
     if(format=="origin"):
         return rtime
     elif format=="relative":
