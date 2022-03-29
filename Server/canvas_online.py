@@ -51,8 +51,6 @@ def num2ch(f: int):
 
 
 def time_format_control(rtime: datetime, format):
-    # Change timezone
-    rtime = rtime + timedelta(hours=8)
     if(format=="origin"):
         return rtime
     elif format=="relative":
@@ -164,7 +162,7 @@ class apilink:
         if(len(self.ass_data) == 0):
             self.output += "暂无作业\n"
         for ass in self.ass_data:
-            dttime = datetime.strptime(ass['due_at'], '%Y-%m-%dT%H:%M:%SZ')
+            dttime = datetime.strptime(ass['due_at'], '%Y-%m-%dT%H:%M:%SZ') + timedelta(hours=8)
             if(dttime < now):
                 continue
             tformat=g_tformat
