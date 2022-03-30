@@ -9,17 +9,13 @@ A wallpaper engine web wallpaper.
 
 ## 效果展示
 
-### 双栏
+### 双栏（目前不再维护）
 
 ![](https://s3.bmp.ovh/imgs/2022/03/ba8118a1289e7f42.png)
 
 ### 单栏可移动（默认，推荐，支持移动、调整大小）
 
 ![](https://s3.bmp.ovh/imgs/2022/03/3010e57ffbc1e233.png)
-
-### 单栏居中
-
-![](https://s3.bmp.ovh/imgs/2022/03/7a0f1f8c96a4fad6.png)
 
 ### 移动/调整大小
 
@@ -110,15 +106,15 @@ input{
     transform: scale(1); /* 调整勾选框大小，比例 */
 }
 
-.box{
+.innerbox{
     font-size: 20pt; /* 调整文字大小 */
 }
 ```
 
 各种对象的Selector:
 
-- 盒子容器：`.box`
-- 主盒子：`#b1`，副盒子：`#b2`
+- 盒子容器：`.box`，盒子内的文本容器：`.innerbox`
+- 主盒子：`#c1`，副盒子：`#c2`
 - 缩放svg：`#resizeicon`
 - 待补充...
 
