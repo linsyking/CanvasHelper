@@ -184,6 +184,9 @@ class apilink:
             if a:
                 for k in a:
                     if k['due_at']:
+                        dttime = datetime.strptime(k['due_at'], '%Y-%m-%dT%H:%M:%SZ') + timedelta(hours=8)
+                        if(dttime < now ):
+                            continue
                         self.ass_data.append(k)
         self.ass_data.sort(key=self._cmp_ass, reverse=True)
         self.output = f'<h2>{self.cname}: 近期作业</h2>\n'
@@ -198,8 +201,6 @@ class apilink:
                 break
             maxnum-=1
             dttime = datetime.strptime(ass['due_at'], '%Y-%m-%dT%H:%M:%SZ') + timedelta(hours=8)
-            if(dttime < now and ("maxshow" not in self.other)):
-                continue
             tformat=g_tformat
             if "timeformat" in self.other:
                 tformat = self.other['timeformat']

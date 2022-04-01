@@ -1,0 +1,168 @@
+html,
+body {
+    margin: 0px;
+    padding: 0px;
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+    background-color: rgb(255, 255, 255);
+    font-family: "Poppins", sans-serif;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    z-index: 1;
+}
+
+.box{
+    width: 30%;
+    height: 75%;
+    background: hsla(0,0%,100%,.5);
+    border-radius: 10px;
+    box-shadow: 5px 3px 30px black;
+
+    overflow-y: hidden;
+    overflow-x: hidden;
+    backdrop-filter: blur(20px);
+
+    visibility: hidden;
+}
+
+.innerbox:hover {
+    overflow-y: auto;
+}
+
+.innerbox::-webkit-scrollbar {
+    display: block;
+    width: 25px;
+}
+    
+.innerbox::-webkit-scrollbar-thumb {
+    background-color: rgb(180, 212, 255);
+    border-right: none;
+    border-left: none;
+    border-radius: 10px;
+    
+}
+
+.innerbox::-webkit-scrollbar-thumb:hover{
+    background-color: rgb(157, 199, 255);
+}
+
+.innerbox::-webkit-scrollbar-thumb:active{
+    background-color: rgb(119, 178, 255);
+}
+
+.innerbox::-webkit-scrollbar-track-piece:end {
+    background: transparent;
+    margin-bottom: 50px; 
+}
+
+.innerbox::-webkit-scrollbar-track-piece:start {
+    background: transparent;
+    margin-top: 50px;
+}
+
+.innerbox{
+    position: absolute;
+    left: 2%;
+    right: 5px;
+    top: 1%;
+    bottom: 1%;
+    overflow: hidden;
+    font-size: 17px;
+    color: rgb(0, 0, 0);
+}
+
+.rightbox{
+    position: absolute;
+    /* overflow-y: auto; */
+    right: 10%;
+}
+
+.resizer{
+    width: 50px;
+    height: 50px;
+    position:absolute;
+    right: 0px;
+    bottom: 0px;
+    z-index: 100;
+    visibility: hidden;
+}
+
+.ftg{
+    filter: invert(61%) sepia(43%) saturate(6440%) hue-rotate(191deg) brightness(102%) contrast(101%);
+}
+
+.checkbox{
+  background-color: #fff;
+  border: solid 1px #000000;
+  border-radius: 4px;
+  display: inline-block;
+  height: 16px;
+  margin-right: 6px;
+  text-align: center;
+  width: 16px;
+  vertical-align: middle;
+}
+
+.single{
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.ssvg{
+    margin-bottom: 2px;
+    stroke: #fff;
+    width:10px;
+    height:10px;
+}
+
+.delete{
+    text-decoration: line-through;
+}
+
+.wrong{
+    color: rgb(160, 160, 160);
+}
+
+.label{
+    vertical-align: middle;
+}
+
+.positive {
+    background-color: #4aca65;
+    border-color: #43b45b;
+}
+  
+.negative {
+    background-color: #b8b7b7;
+    border-color: #6d6d6d;
+}
+
+.important {
+    background-color: #ffbb00;
+    border-color: #4c4c4c;
+}
+
+.imptext{
+    font-weight: bolder;
+    color: rgb(228, 68, 94);
+    /* text-shadow: 1px 1px #000000; */
+}
+
+.refreshicon{
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    visibility: hidden;
+    z-index: 100;
+}
+
+.refreshicon:hover{
+    filter: invert(61%) sepia(43%) saturate(6440%) hue-rotate(191deg) brightness(102%) contrast(101%);
+}
+
