@@ -15,59 +15,45 @@ if (empty($data['check'])) {
     exit(0);
 }
 
-if (empty($data['action'])) {
-    echo "action error";
+if (!array_key_exists('type',$data)) {
+    echo "type error";
     exit(0);
 }
 
 $bid = $data['bid'];
 $cs = $data['check'];
-$act = $data['action'];
-
-if (!preg_match("#^[a-zA-Z0-9]+$#", $bid)) {
-    echo "invalid bid";
-    exit(0);
-}
-
-if (!preg_match("#^[a-zA-Z0-9]+$#", $cs)) {
-    echo "invalid checks";
-    exit(0);
-}
-
+$ctype = $data['type'];
 $enc = sha1($bid);
+
+if (!file_exists('./data/' . $enc)) {
+    exit(0);
+}
 
 if (!file_exists('./data/' . $enc . '/userdata.json')) {
     $file = fopen('./data/' . $enc . '/userdata.json', 'w');
     // Save file
-    $rnew=["checks"=>[$cs]];
+    $rnew=["checks"=>[["name"=>$cs,"type"=>$ctype]]];
     fwrite($file, json_encode($rnew));
     fclose($file);
 } else {
     $udata = json_decode(file_get_contents('./data/' . $enc . '/userdata.json'), true);
-    $udatac=&$udata['checks'];
-    if ($act == 'add') {
-        foreach ($udatac as $i) {
-            if ($i == $cs) {
-                exit(0);
-            }
-        }
-        $udatac[] = $cs;
-        $file = fopen('./data/' . $enc . '/userdata.json', 'w');
-        fwrite($file, json_encode($udata));
-        fclose($file);
-    }
-    if ($act == 'del') {
-        $udatacp=$udata["checks"];
+    if(empty($udata['checks'])){
         $udata['checks']=[];
-
-        foreach ($udatacp as $i) {
-            if ($i != $cs) {
-                $udata['checks'][] = $i;
-            }
-        }
-
-        $file = fopen('./data/' . $enc . '/userdata.json', 'w');
-        fwrite($file, json_encode($udata));
-        fclose($file);
     }
+    $udatac=&$udata['checks'];
+    $isexist=0;
+    foreach ($udatac as &$i) {
+        if ($i["name"] == $cs) {
+            $i["type"] = $ctype;
+            $isexist=1;
+            break;
+        }
+    }
+    if(!$isexist){
+        $newcs = ["name"=>$cs, "type"=>$ctype];
+        $udatac[] = $newcs;
+    }
+    $file = fopen('./data/' . $enc . '/userdata.json', 'w');
+    fwrite($file, json_encode($udata));
+    fclose($file);
 }

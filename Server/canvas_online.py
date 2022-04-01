@@ -49,8 +49,23 @@ def num2ch(f: int):
     s = ['一', '二', '三', '四', '五', '六', '日']
     return s[f]
 
+def dump_span(style, id, text):
+    if(style==1):
+        # Positive
+        return f'<div class="single"><span class="checkbox positive" id="{id}"></span><span class="label">{text}</span></div>\n'
+    elif style==2:
+        # wrong
+        return f'<div class="single"><span class="checkbox negative" id="{id}"></span><span class="label">{text}</span></div>\n'
+    elif style==3:
+        # important
+        return f'<div class="single"><span class="checkbox important" id="{id}"></span><span class="label">{text}</span></div>\n'
+    else:
+        # Not checked
+        return f'<div class="single"><span class="checkbox" id="{id}"></span><span class="label">{text}</span></div>\n'
 
 def time_format_control(rtime: datetime, format):
+    if(rtime<now):
+        return "已过期"
     if(format=="origin"):
         return rtime
     elif format=="relative":
@@ -58,6 +73,13 @@ def time_format_control(rtime: datetime, format):
     else:
         # Fallback
         return rtime.strftime(format)
+
+def get_check_status(name:str):
+    # Return type
+    for i in usercheck:
+        if i['name']==name:
+            return i['type']
+    return 0
 
 def relative_date(rtime: datetime):
     # Generate relative date like "下周五 xxx"
@@ -108,7 +130,7 @@ usercheck=[]
 if os.path.exists(f'./data/{hashbid}/userdata.json'):
     with open(f'./data/{hashbid}/userdata.json', 'r', encoding='utf-8', errors='ignore') as f:
         user_custom = json.load(f)
-
+if "checks" in user_custom:
     usercheck = user_custom['checks']
 
 if "timeformat" in ucommand:
@@ -159,20 +181,25 @@ class apilink:
                         self.ass_data.append(k)
         self.ass_data.sort(key=self._cmp_ass, reverse=True)
         self.output = f'<h2>{self.cname}: 近期作业</h2>\n'
-        if(len(self.ass_data) == 0):
+        maxnum = 1000
+        if "maxshow" in self.other:
+            maxnum = int(self.other['maxshow'])
+        if(len(self.ass_data) == 0 or maxnum<=0):
             self.output += "暂无作业\n"
+            return
         for ass in self.ass_data:
+            if(maxnum==0):
+                break
+            maxnum-=1
             dttime = datetime.strptime(ass['due_at'], '%Y-%m-%dT%H:%M:%SZ') + timedelta(hours=8)
-            if(dttime < now):
+            if(dttime < now and ("maxshow" not in self.other)):
                 continue
             tformat=g_tformat
             if "timeformat" in self.other:
                 tformat = self.other['timeformat']
             dttime = time_format_control(dttime, tformat)
-            if(f"ass{ass['id']}" in usercheck):
-                self.output += f"<p><input type=\"checkbox\" id=\"ass{ass['id']}\" checked>{ass['name']}, Due: <b>{dttime}</b></p>\n"
-            else:
-                self.output += f"<p><input type=\"checkbox\" id=\"ass{ass['id']}\">{ass['name']}, Due: <b>{dttime}</b></p>\n"
+            check_type=get_check_status(f"ass{ass['id']}")
+            self.output += dump_span(check_type,f"ass{ass['id']}",f"{ass['name']}, Due: <b>{dttime}</b>")
 
     def collect_announcement(self):
         self.cstate = 'Announcement'
@@ -181,22 +208,20 @@ class apilink:
         anr = json.loads(anr)
         self.ann_data = anr
         self.output = f'<h2>{self.cname}: 近期公告</h2>\n'
-        maximum = 4
+        maxnum = 4
         if("maxshow" in self.other):
-            maximum = int(self.other['maxshow']);
+            maxnum = int(self.other['maxshow']);
 
-        if(len(anr) == 0 or maximum<=0):
+        if(len(anr) == 0 or maxnum<=0):
             self.output += "暂无公告\n"
             return;
         for an in anr:
-            if(f"ann{an['id']}" in usercheck):
-                self.output += f"<p><input type=\"checkbox\" id=\"ann{an['id']}\" checked>{an['title']}</p>\n"
-            else:
-                self.output += f"<p><input type=\"checkbox\" id=\"ann{an['id']}\">{an['title']}</p>\n"
-            maximum -= 1
-            if(maximum == 0):
+            if(maxnum == 0):
                 break
-
+            maxnum -= 1
+            check_type=get_check_status(f"ann{an['id']}")
+            self.output+=dump_span(check_type, f"ann{an['id']}",an['title'])
+            
     def collect_discussion(self):
         self.cstate = 'Discussion'
         dis = self.send(self.discussion)
@@ -208,13 +233,18 @@ class apilink:
             if d['locked']:
                 continue
             self.dis_data.append(d)
-        if(len(self.dis_data) == 0):
+        maxnum = 5
+        if "maxshow" in self.other:
+            maxnum = int(self.other['maxshow'])
+        if(len(self.dis_data) == 0 or maxnum<=0):
             self.output += "暂无讨论\n"
+            return
         for d in self.dis_data:
-            if(f"dis{d['id']}" in usercheck):
-                self.output += f"<p><input type=\"checkbox\" id=\"dis{d['id']}\" checked>{d['title']}</p>\n"
-            else:
-                self.output += f"<p><input type=\"checkbox\" id=\"dis{d['id']}\">{d['title']}</p>\n"
+            if maxnum==0:
+                break
+            maxnum-=1
+            check_type=get_check_status(f"dis{d['id']}")
+            self.output+=dump_span(check_type,f"dis{d['id']}",d['title'])
 
     def error(self):
         global g_error
@@ -236,10 +266,18 @@ except:
     print_own('invalid courses')
     leave()
 
+now_root = now.replace(hour=0,minute=0,second=0,microsecond=0)
+
+sem_begin=datetime.strptime('2022-02-14', '%Y-%m-%d')
+
+bdays = (now_root-sem_begin).days
+
+bweeks = int(bdays/7)+1
+
 if "title" in ucommand:
-    print_own(f"<h1>{ucommand['title']}</h1>")
+    print_own(f"<h1>{ucommand['title']} - 第{bweeks}周</h1>")
 else:
-    print_own("<h1>Canvas Notifications</h1>")
+    print_own(f"<h1>Canvas 通知 - 第{bweeks}周</h1>")
 for i in allc:
     try:
         i.run()
