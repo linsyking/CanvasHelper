@@ -116,12 +116,9 @@ A wallpaper engine web wallpaper.
 }
 ```
 
-各种对象的Selector:
+各种对象的class：
 
-- 盒子容器：`.box`，盒子内的文本容器：`.innerbox`
-- 主盒子：`#c1`，副盒子：`#c2`
-- 缩放svg：`#resizeicon`
-- 待补充...
+<img src="http://www.yydbxx.cn:3000/King/materials/raw/branch/master/Canvas%20Helper/img/css.png" style="zoom:70%;" />
 
 ### user_data
 
@@ -146,7 +143,7 @@ courses节点下：
 - [x] 可拖动的div
 - [x] 可调整大小的div
 - [x] 用户添加说明/额外的Note
-- [ ] 隐藏部分items
+- [x] 隐藏部分items
 - [x] 更好的Due提示
 - [x] Cache页面
 
@@ -156,7 +153,9 @@ courses节点下：
 
 `Client`文件夹包含客户端代码（Wallpaper engine项目文件）
 
-**更新之后原本Client的大部分迁移到了Server端（方便更新）**，因为可能频繁更新，所以本仓库只有在大更新（版本变化）时才会更新客户端源码，需要查看最新客户端源码可以从以下地址下载：
+**更新之后原本Client的大部分迁移到了Server端（方便更新）**
+
+因为可能频繁更新，所以本仓库只有在大更新（版本变化）时才会更新客户端源码，需要查看最新客户端源码可以从以下地址下载：
 
 `http://yydbxx.cn/test/canvas/res/model.js`
 
