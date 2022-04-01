@@ -49,20 +49,6 @@ def num2ch(f: int):
     s = ['一', '二', '三', '四', '五', '六', '日']
     return s[f]
 
-def dump_span(style, id, text):
-    if(style==1):
-        # Positive
-        return f'<div class="single"><span class="checkbox positive" id="{id}"></span><span class="label">{text}</span></div>\n'
-    elif style==2:
-        # wrong
-        return f'<div class="single"><span class="checkbox negative" id="{id}"></span><span class="label">{text}</span></div>\n'
-    elif style==3:
-        # important
-        return f'<div class="single"><span class="checkbox important" id="{id}"></span><span class="label">{text}</span></div>\n'
-    else:
-        # Not checked
-        return f'<div class="single"><span class="checkbox" id="{id}"></span><span class="label">{text}</span></div>\n'
-
 def time_format_control(rtime: datetime, format):
     if(rtime<now):
         return "已过期"
@@ -149,6 +135,20 @@ class apilink:
         self.discussion = f'{url}/api/v1/courses/{course_id}/discussion_topics?plain_messages=true&exclude_assignment_descriptions=true&exclude_context_module_locked_topics=true&order_by=recent_activity&include=all_dates'
         self.other=otherdata
 
+    def dump_span(self, style, id, text):
+        if(style==1):
+            # Positive
+            return f'<div class="single"><span class="checkbox positive" id="{id}"></span><span class="label">{text}</span></div>\n'
+        elif style==2:
+            # wrong
+            return f'<div class="single"><span class="checkbox negative" id="{id}"></span><span class="label">{text}</span></div>\n'
+        elif style==3:
+            # important
+            return f'<div class="single"><span class="checkbox important" id="{id}"></span><span class="label">{text}</span></div>\n'
+        else:
+            # Not checked
+            return f'<div class="single"><span class="checkbox" id="{id}"></span><span class="label">{text}</span></div>\n'
+
     def send(self, url):
         return requests.get(url, headers=self.headers).content.decode(
             encoding='utf-8', errors='ignore')
@@ -166,6 +166,12 @@ class apilink:
             self.collect_discussion()
         else:
             print_own("Error")
+        self.add_custom_info()
+
+    def add_custom_info(self):
+        if('msg' in self.other):
+            # Add custom message
+            self.output+=f'<p>{self.other["msg"]}</p>\n'
 
     def collect_assignment(self):
         self.cstate = 'Assignment'
@@ -199,7 +205,7 @@ class apilink:
                 tformat = self.other['timeformat']
             dttime = time_format_control(dttime, tformat)
             check_type=get_check_status(f"ass{ass['id']}")
-            self.output += dump_span(check_type,f"ass{ass['id']}",f"{ass['name']}, Due: <b>{dttime}</b>")
+            self.output += self.dump_span(check_type,f"ass{ass['id']}",f"{ass['name']}, Due: <b>{dttime}</b>")
 
     def collect_announcement(self):
         self.cstate = 'Announcement'
@@ -220,7 +226,7 @@ class apilink:
                 break
             maxnum -= 1
             check_type=get_check_status(f"ann{an['id']}")
-            self.output+=dump_span(check_type, f"ann{an['id']}",an['title'])
+            self.output+=self.dump_span(check_type, f"ann{an['id']}",an['title'])
             
     def collect_discussion(self):
         self.cstate = 'Discussion'
@@ -244,7 +250,7 @@ class apilink:
                 break
             maxnum-=1
             check_type=get_check_status(f"dis{d['id']}")
-            self.output+=dump_span(check_type,f"dis{d['id']}",d['title'])
+            self.output+=self.dump_span(check_type,f"dis{d['id']}",d['title'])
 
     def error(self):
         global g_error
