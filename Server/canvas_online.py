@@ -154,7 +154,10 @@ class apilink:
             encoding='utf-8', errors='ignore')
 
     def _cmp_ass(self, el):
-        return el['due_at']
+        if el['due_at']:
+            return el['due_at']
+        else:
+            return el['updated_at']
 
     def run(self):
         t = self.course_type
@@ -188,6 +191,9 @@ class apilink:
                         if(dttime < now ):
                             continue
                         self.ass_data.append(k)
+                    elif k['updated_at']:
+                        # Fallback to updated
+                        self.ass_data.append(k)
         self.ass_data.sort(key=self._cmp_ass, reverse=True)
         self.output = f'<h2>{self.cname}: 近期作业</h2>\n'
         maxnum = 1000
@@ -200,13 +206,19 @@ class apilink:
             if(maxnum==0):
                 break
             maxnum-=1
-            dttime = datetime.strptime(ass['due_at'], '%Y-%m-%dT%H:%M:%SZ') + timedelta(hours=8)
-            tformat=g_tformat
-            if "timeformat" in self.other:
-                tformat = self.other['timeformat']
-            dttime = time_format_control(dttime, tformat)
-            check_type=get_check_status(f"ass{ass['id']}")
-            self.output += self.dump_span(check_type,f"ass{ass['id']}",f"{ass['name']}, Due: <b>{dttime}</b>")
+            if ass['due_at']:
+                dttime = datetime.strptime(ass['due_at'], '%Y-%m-%dT%H:%M:%SZ') + timedelta(hours=8)
+                tformat=g_tformat
+                if "timeformat" in self.other:
+                    tformat = self.other['timeformat']
+                dttime = time_format_control(dttime, tformat)
+                check_type=get_check_status(f"ass{ass['id']}")
+                self.output += self.dump_span(check_type,f"ass{ass['id']}",f"{ass['name']}, Due: <b>{dttime}</b>")
+            else:
+                # No due date homework
+                check_type=get_check_status(f"ass{ass['id']}")
+                self.output += self.dump_span(check_type,f"ass{ass['id']}",f"{ass['name']}")
+
 
     def collect_announcement(self):
         self.cstate = 'Announcement'
