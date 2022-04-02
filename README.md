@@ -135,6 +135,25 @@ courses节点下：
 - `timeformat`：指定日期显示格式，同根节点，但这里的优先级更高
 - `msg`：添加额外信息，支持html语法
 
+### 添加提示框/复制文字
+
+在`msg`中添加`ppt`标签。
+
+例子：
+
+```json
+{
+    "course_id": 2469,
+    "course_name": "VY200",
+    "type": "ass",
+    "msg": "<p>Meeting ID: <ppt label='ID'>615-150-756</ppt></p><p>Password: <ppt>544136</ppt></p>"
+}
+```
+
+`ppt`标签可选参数为`label`，表示提示框的标题。
+
+通过提示框，您可以复制这些文字。
+
 ## 特性/支持
 
 - [x] 自定义壁纸、页面（需要改写css）
