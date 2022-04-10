@@ -206,6 +206,9 @@ class apilink:
             if(maxnum==0):
                 break
             maxnum-=1
+            submit_msg=''
+            if ('has_submitted_submissions' in ass) and ass['has_submitted_submissions']:
+                submit_msg='（已提交）'
             if ass['due_at']:
                 dttime = datetime.strptime(ass['due_at'], '%Y-%m-%dT%H:%M:%SZ') + timedelta(hours=8)
                 tformat=g_tformat
@@ -213,11 +216,11 @@ class apilink:
                     tformat = self.other['timeformat']
                 dttime = time_format_control(dttime, tformat)
                 check_type=get_check_status(f"ass{ass['id']}")
-                self.output += self.dump_span(check_type,f"ass{ass['id']}",f"{ass['name']}, Due: <b>{dttime}</b>")
+                self.output += self.dump_span(check_type,f"ass{ass['id']}",f"{ass['name']}, Due: <b>{dttime}{submit_msg}</b>")
             else:
                 # No due date homework
                 check_type=get_check_status(f"ass{ass['id']}")
-                self.output += self.dump_span(check_type,f"ass{ass['id']}",f"{ass['name']}")
+                self.output += self.dump_span(check_type,f"ass{ass['id']}",f"{ass['name']}{submit_msg}")
 
 
     def collect_announcement(self):
