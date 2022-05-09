@@ -176,7 +176,7 @@ courses节点下：
 
 <img src="http://img.yydbxx.cn/github/CanvasHelper/calendar_preview.png" style="zoom:80%;" />
 
-首先，登入选课网站`https://coursesel.umji.sjtu.edu.cn`，登录后先按F12打开DevTools，选到“Network”选项卡，然后在网页中打开“我的课表”，再在DevTools中找到含有`findWeekCalendar_LessonCalendar`字样的POST请求，复制其Response，在壁纸文件夹中新建`calendar.json`，将刚才复制的Response粘贴进去。
+首先，登录[选课网站](https://coursesel.umji.sjtu.edu.cn)，登录后先按F12打开DevTools，选到“Network”选项卡，然后在网页中打开“我的课表”，再在DevTools中找到含有`findWeekCalendar_LessonCalendar`字样的POST请求，复制其Response，在壁纸文件夹中新建`calendar.json`，将刚才复制的Response粘贴进去。
 
 <img src="http://img.yydbxx.cn/github/CanvasHelper/explain_calendar.png" style="zoom:50%;" />
 
