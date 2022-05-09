@@ -156,6 +156,8 @@ courses节点下：
 
 ## 实验性功能
 
+### 视频壁纸
+
 目前版本可以使用视频作为背景。要使用该功能，首先您需要通过视频转换软件将您想要播放的视频转换为webm视频格式（Wallpaper Engine仅支持该格式），然后将其拷贝至壁纸文件夹下。
 
 然后在`user_data.json`文件中添加如下选项：
@@ -168,6 +170,24 @@ courses节点下：
 
 请设置`"video"`属性为您的视频文件名。
 
+### 课表提醒
+
+该功能可以让您查看即将上的课程。目前只有密院学生能使用该功能。
+
+<img src="http://img.yydbxx.cn/github/CanvasHelper/calendar_preview.png" style="zoom:80%;" />
+
+首先，登入选课网站`https://coursesel.umji.sjtu.edu.cn`，登录后先按F12打开DevTools，选到“Network”选项卡，然后在网页中打开“我的课表”，再在DevTools中找到含有`findWeekCalendar_LessonCalendar`字样的POST请求，复制其Response，在壁纸文件夹中新建`calendar.json`，将刚才复制的Response粘贴进去。
+
+<img src="http://img.yydbxx.cn/github/CanvasHelper/explain_calendar.png" style="zoom:50%;" />
+
+然后，在`user_data.json`文件中的根节点下设置属性：
+
+```json
+"calendar": 1
+```
+
+最后，重新加载壁纸，在桌面点击上传图标即可完成上传。文件只需上传一次（备份在云端），如果要更改课表，请重新上传。
+
 ## 特性/支持
 
 - [x] 自定义壁纸、页面（需要改写css）
@@ -179,7 +199,7 @@ courses节点下：
 - [x] 隐藏部分items
 - [x] 更好的Due提示
 - [x] Cache页面
-- [ ] 动态壁纸
+- [x] 视频壁纸
 
 ## 关于源代码
 
