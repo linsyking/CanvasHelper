@@ -8,7 +8,7 @@
 from math import floor
 import os
 import json
-from datetime import datetime, timedelta
+from datetime import datetime
 
 
 class CalendarParser:
@@ -73,7 +73,21 @@ class CalendarParser:
             i[3] = (bgt, edt)
 
     def cmp(self, k):
-        return k[3][0].hour*60 + k[3][0].minute + k[2]*1000
+        return k[3][0].hour*60 + k[3][0].minute + k[2]*2000
+
+    def make_prefix(self, dow, dnow):
+        if dow == dnow:
+            return ''
+        elif dow==dnow+1:
+            return '明天'
+        elif dow == dnow+2:
+            return '后天'
+        elif dow == dnow+3:
+            return '大后天'
+        else:
+            etc = ['一','二','三','四','五','六','日']
+            return f'星期{etc[dow-1]}'
+
 
     def get_next_course(self):
         if len(self.cal) == 0:
@@ -117,8 +131,8 @@ class CalendarParser:
         td = next[0]
         tbgt = td[3][0].strftime('%H:%M')
         tedt = td[3][1].strftime('%H:%M')
-
-        tmsg+= f'<h3>接下来</h3><p>{td[0]}，时间：<b>{tbgt} - {tedt}</b></p>\n'
+        pfx = self.make_prefix(td[2], cur_dow)
+        tmsg+= f'<h3>接下来</h3><p>{td[0]}，时间：<b>{pfx}{tbgt} - {tedt}</b></p>\n'
         
         return self.layout_wrap(tmsg)
 

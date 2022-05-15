@@ -131,7 +131,8 @@ A wallpaper engine web wallpaper.
 
 courses节点下：
 
-- `maxshow`：最大显示数量，目前仅支持Announcement类别
+- `maxshow`：最大显示数量
+- `order`：显示顺序，可选为`reverse`表示倒序展示
 - `timeformat`：指定日期显示格式，同根节点，但这里的优先级更高
 - `msg`：添加额外信息，支持html语法
 

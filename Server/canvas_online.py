@@ -216,6 +216,8 @@ class apilink:
         if(len(self.ass_data) == 0 or maxnum <= 0):
             self.output += "暂无作业\n"
             return
+        if "order" in self.other and self.other['order'] == "reverse":
+            self.ass_data.reverse()
         for ass in self.ass_data:
             if(maxnum == 0):
                 break
@@ -249,11 +251,12 @@ class apilink:
         maxnum = 4
         if("maxshow" in self.other):
             maxnum = int(self.other['maxshow'])
-
         if(len(anr) == 0 or maxnum <= 0):
             self.output += "暂无公告\n"
             return
-        for an in anr:
+        if "order" in self.other and self.other['order'] == "reverse":
+            self.ann_data.reverse()
+        for an in self.ann_data:
             if(maxnum == 0):
                 break
             maxnum -= 1
@@ -278,6 +281,8 @@ class apilink:
         if(len(self.dis_data) == 0 or maxnum <= 0):
             self.output += "暂无讨论\n"
             return
+        if "order" in self.other and self.other['order'] == "reverse":
+            self.dis_data.reverse()
         for d in self.dis_data:
             if maxnum == 0:
                 break
