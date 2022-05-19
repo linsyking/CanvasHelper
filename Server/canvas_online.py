@@ -145,7 +145,7 @@ class apilink:
         self.course_type = course_type
         self.assignment = f'{url}/api/v1/courses/{course_id}/assignment_groups?include[]=assignments&include[]=discussion_topic&exclude_response_fields[]=description&exclude_response_fields[]=rubric&override_assignment_dates=true'
         self.announcement = f'{url}/api/v1/courses/{course_id}/discussion_topics?only_announcements=true'
-        self.discussion = f'{url}/api/v1/courses/{course_id}/discussion_topics?plain_messages=true&exclude_assignment_descriptions=true&exclude_context_module_locked_topics=true&order_by=recent_activity&include=all_dates'
+        self.discussion = f'{url}/api/v1/courses/{course_id}/discussion_topics?plain_messages=true&exclude_assignment_descriptions=true&exclude_context_module_locked_topics=true&order_by=recent_activity&include=all_dates&per_page=50'
         self.other = otherdata
 
     def dump_span(self, style, id, text):
