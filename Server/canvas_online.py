@@ -297,7 +297,10 @@ class apilink:
         print_own(f'<h2>{self.cname}: 发生错误</h2>\n<p>{self.raw}</p>\n')
 
     def print_out(self):
-        print_own(self.output)
+        if hasattr(self, "output"):
+            print_own(self.output)
+        else:
+            print(f"warning: no output for course {self.cname} (id: {self.course})")
 
 
 courses = ucommand['courses']
