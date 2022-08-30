@@ -300,7 +300,7 @@ class apilink:
         if hasattr(self, "output"):
             print_own(self.output)
         else:
-            print(f"warning: no output for course {self.cname} (id: {self.course})")
+            print(f"<p>warning: no output for course {self.cname} (id: {self.course})</p>")
 
 
 courses = ucommand['courses']
