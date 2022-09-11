@@ -94,10 +94,13 @@ class CalendarParser:
             # No course uploaded
             prompt = '<h3>说明</h3><p>您尚未上传课表，点击右下角图标上传</p>\n<p>详细使用说明请访问Github仓库</p>'
             return self.layout_wrap(prompt)
-        self.get_all_course_calendar()
-        self.special_add()
-        self.parse_time()
-        # print(self.courses)
+        try:
+            self.get_all_course_calendar()
+            self.special_add()
+            self.parse_time()
+        except:
+            prompt = '<h3>说明</h3><p>课表解析失败，请重新上传</p>\n<p>详细使用说明请访问Github仓库</p>'
+            return self.layout_wrap(prompt)
         now = datetime.now()
         now_root = now.replace(hour=0, minute=0, second=0, microsecond=0)
         sem_begin = datetime.strptime('2022-05-9', '%Y-%m-%d')
