@@ -12,6 +12,7 @@ import json
 import sys
 import hashlib
 import os
+from config import SJTU_SEM_START_DAY, UMJI_SEM_START_DAY
 
 from calendar_parser import CalendarParser
 
@@ -315,9 +316,9 @@ except:
 
 now_root = now.replace(hour=0, minute=0, second=0, microsecond=0)
 
-sem_begin = datetime.strptime('2022-02-14', '%Y-%m-%d')
+sem_begin = datetime.strptime(SJTU_SEM_START_DAY, '%Y-%m-%d')
 if url.find('umjicanvas') != -1:
-    sem_begin = datetime.strptime('2022-05-9', '%Y-%m-%d')
+    sem_begin = datetime.strptime(UMJI_SEM_START_DAY, '%Y-%m-%d')
 
 bdays = (now_root-sem_begin).days
 bweeks = floor(bdays/7)+1
