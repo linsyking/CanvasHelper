@@ -201,6 +201,8 @@ courses节点下：
 - [x] 更好的Due提示
 - [x] Cache页面
 - [x] 视频壁纸
+- [ ] *支持本地运行服务器
+- [ ] *Scrollbar特性
 
 ## 关于源代码
 
@@ -217,6 +219,12 @@ courses节点下：
 `http://yydbxx.cn/test/canvas/res/style.css`
 
 有问题发issue，或者发pr，谢谢。
+
+## Code Issue
+
+- [ ] 使用`canvasapi`获取Canvas数据
+- [ ] 优化`model.js`
+- [ ] 优化`calendar_parser`
 
 ## Contact
 
