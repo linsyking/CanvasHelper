@@ -1,9 +1,8 @@
-# coding=utf-8
 '''
 @Author: King
-@Date: 2022-03-24 星期四 19-30-43
+@Date: 2022-03-24 19-30-43
 @Email: linsy_king@sjtu.edu.cn
-@Url: http://www.yydbxx.cn
+@Url: https://yydbxx.cn
 '''
 
 from datetime import datetime, timedelta

@@ -1,9 +1,8 @@
-# coding=utf-8
 '''
 @Author: King
 @Date: 2022-05-08 21:53:28
 @Email: 13321998692@163.com
-@Url: http://www.yydbxx.cn
+@Url: https://yydbxx.cn
 '''
 from math import floor
 import os
