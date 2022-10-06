@@ -13,26 +13,26 @@ window.wallpaperPropertyListener = {
 }
 
 function wait() {
-    $.get('https://yydbxx.cn', function (data) { }, 'text').fail(function () {
+    $.get("https://res.yydbxx.cn/server/online.txt", function () { }, "text").fail(function () {
+        // Cannot connect to the server
         setTimeout(wait, 1000);
-        return;
     }).done(function () {
-        var queryString = '?reload=' + new Date().getTime();
-        var head = document.getElementsByTagName('head')[0];
-        var link = document.createElement('link');
-        link.rel = 'stylesheet';
-        link.type = 'text/css';
-        link.href = 'https://yydbxx.cn/test/canvas/res/style.css' + queryString;
+        var queryString = "?reload=" + new Date().getTime();
+        var head = document.getElementsByTagName("head")[0];
+        var link = document.createElement("link");
+        link.rel = "stylesheet";
+        link.type = "text/css";
+        link.href = "https://res.yydbxx.cn/server/static/canvas/style.css" + queryString;
         head.appendChild(link);
 
-        var js = document.createElement('script');
-        js.src = "https://yydbxx.cn/test/canvas/res/model.js" + queryString;
+        var js = document.createElement("script");
+        js.src = "https://res.yydbxx.cn/server/static/canvas/model.js" + queryString;
         head.appendChild(js);
 
-        var link2 = document.createElement('link');
-        link2.rel = 'stylesheet';
-        link2.type = 'text/css';
-        link2.href = './style.css';
-        head.appendChild(link2);
+        link = document.createElement("link");
+        link.rel = "stylesheet";
+        link.type = "text/css";
+        link.href = "./style.css";
+        head.appendChild(link);
     });
 }
