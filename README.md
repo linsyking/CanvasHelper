@@ -9,7 +9,7 @@ A wallpaper engine web wallpaper.
 
 ### 支持移动、调整大小
 
-![](https://res.yydbxx.cn/server/static/canvas/snapshots/record2.gif)
+![](https://res.yydbxx.cn/server/static/canvas/snapshots/recording.gif)
 
 ![](https://res.yydbxx.cn/server/static/canvas/snapshots/s1.png)
 
