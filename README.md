@@ -3,25 +3,15 @@ A wallpaper engine web wallpaper.
 
 **说明：服务器端我们没有保存例如Access code等隐私数据，仅保存了加密（sha1）后的Access code、用户勾选的Checkbox信息和Box位置信息**
 
-**请不要恶意使用**
-
 ---
 
 ## 效果展示
 
-### 双栏（目前不再维护）
+### 支持移动、调整大小
 
-![](https://s3.bmp.ovh/imgs/2022/03/ba8118a1289e7f42.png)
+![](https://res.yydbxx.cn/server/static/canvas/snapshots/record.gif)
 
-### 单栏可移动（默认，推荐，支持移动、调整大小）
-
-![](https://s3.bmp.ovh/imgs/2022/03/3010e57ffbc1e233.png)
-
-### 移动/调整大小
-
-![](http://www.yydbxx.cn:3000/King/materials/raw/branch/master/Canvas%20Helper/img/resize.gif)
-
-若您无法使用此功能，请更新壁纸到最新版本（先卸载当前壁纸，重新下载安装）。
+![](https://res.yydbxx.cn/server/static/canvas/snapshots/s1.png)
 
 **所有勾选的选项会同步到我们服务器端**
 
@@ -33,7 +23,7 @@ A wallpaper engine web wallpaper.
 
 在 账户>设置 中找到“允许融入使用的外部软件”选项，创建一个新的许可证。过期栏请留空。
 
-<img src="http://www.yydbxx.cn:3000/King/materials/raw/branch/master/Canvas%20Helper/img/access.png" style="zoom:50%;" />
+<img src="https://res.yydbxx.cn/server/static/canvas/snapshots/access.png" style="zoom:50%;" />
 
 请保存“令牌”。
 
@@ -51,13 +41,13 @@ A wallpaper engine web wallpaper.
 
 在壁纸配置中，配置`user_data`变量。选择文件夹为**该壁纸所在的目录**（查看壁纸目录的方法：在Wallpaper Engine中右键，在资源管理器中打开，选择这个目录）。
 
-<img src="http://www.yydbxx.cn:3000/King/materials/raw/branch/master/Canvas%20Helper/img/wppath.png" style="zoom:50%;" />
+<img src="https://res.yydbxx.cn/server/static/canvas/snapshots/wppath.png" style="zoom:50%;" />
 
 **更新：重要提醒：这个文件夹务必选择为壁纸所在目录，否则将无法访问到该文件。**
 
 在这个目录下创建一个名为`user_data.json`的文件（**必须为该名称**）
 
-<img src="http://www.yydbxx.cn:3000/King/materials/raw/branch/master/Canvas%20Helper/img/explorer.png" style="zoom:67%;" />
+<img src="https://res.yydbxx.cn/server/static/canvas/snapshots/explorer.png" style="zoom:67%;" />
 
 然后向其中添加以下内容（下面只是示例）：
 
@@ -118,7 +108,7 @@ A wallpaper engine web wallpaper.
 
 各种对象的class：
 
-<img src="http://www.yydbxx.cn:3000/King/materials/raw/branch/master/Canvas%20Helper/img/css.png" style="zoom:70%;" />
+<img src="https://res.yydbxx.cn/server/static/canvas/snapshots/css.png" style="zoom:70%;" />
 
 ### user_data
 
@@ -202,7 +192,7 @@ courses节点下：
 - [x] Cache页面
 - [x] 视频壁纸
 - [ ] *支持本地运行服务器
-- [ ] *Scrollbar特性
+- [x] Scrollbar特性
 
 ## 关于源代码
 
@@ -214,9 +204,9 @@ courses节点下：
 
 因为可能频繁更新，所以本仓库只有在大更新（版本变化）时才会更新客户端源码，需要查看最新客户端源码可以从以下地址下载：
 
-`http://yydbxx.cn/test/canvas/res/model.js`
+<https://res.yydbxx.cn/server/static/canvas/model.js>
 
-`http://yydbxx.cn/test/canvas/res/style.css`
+<https://res.yydbxx.cn/server/static/canvas/style.css>
 
 有问题发issue，或者发pr，谢谢。
 

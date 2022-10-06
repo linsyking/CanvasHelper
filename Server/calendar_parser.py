@@ -24,7 +24,7 @@ class CalendarParser:
 
     def layout_wrap(self, msg: str):
         # Layout
-        return f'<div class="calendar"><div class="cal-content">{msg}<cal class="edit"><img width="30px" height="30px" src="http://yydbxx.cn/test/canvas/res/edit.svg"></img></cal></div></div>'
+        return f'<div class="calendar"><div class="cal-content">{msg}<cal class="edit"><img width="30px" height="30px" src="https://res.yydbxx.cn/server/static/canvas/edit.svg"></img></cal></div></div>'
 
     def special_override(self, cl):
         # Override some courses

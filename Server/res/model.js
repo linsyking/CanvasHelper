@@ -46,7 +46,7 @@ function updatecheck() {
         // Sene request
         // Send check request
         let smsg = { "bid": window.udatap['bid'], "check": this.id, "type": newtype };
-        $.ajax("http://yydbxx.cn/test/canvas/check.php", {
+        $.ajax("https://yydbxx.cn/test/canvas/check.php", {
             data: JSON.stringify(smsg),
             contentType: 'application/json',
             type: 'POST'
@@ -61,7 +61,7 @@ function updateCB() {
         if (this.checked) {
             // Check
             smsg['action'] = 'add';
-            $.ajax("http://yydbxx.cn/test/canvas/check.php", {
+            $.ajax("https://yydbxx.cn/test/canvas/check.php", {
                 data: JSON.stringify(smsg),
                 contentType: 'application/json',
                 type: 'POST'
@@ -69,7 +69,7 @@ function updateCB() {
         } else {
             // Cancel
             smsg['action'] = 'del';
-            $.ajax("http://yydbxx.cn/test/canvas/check.php", {
+            $.ajax("https://yydbxx.cn/test/canvas/check.php", {
                 data: JSON.stringify(smsg),
                 contentType: 'application/json',
                 type: 'POST'
@@ -78,14 +78,64 @@ function updateCB() {
     });
 }
 
+function loadppt() {
+    $("ppt").click(function () {
+        let defaultppt = "复制：请先选中，然后按Ctrl+C";
+        if ($(this).is('[label]')) {
+            defaultppt = $(this).attr("label");
+        }
+        window.prompt(defaultppt, $(this).text());
+    });
+}
+
+function loadcourse() {
+    $("cal").click(function () {
+        // Get the calendar data
+        $.ajax({
+            url: 'file:///' + window.oudata + '/calendar.json',
+            dataType: 'text',
+            type: 'GET',
+            success: function (data) {
+                let calendar = data;
+                var jmsg = [];
+                try {
+                    jmsg = JSON.parse(calendar);
+                } catch (e) {
+                    alert("语法错误");
+                    return;
+                }
+                $.ajax("https://yydbxx.cn/test/canvas/calendar.php", {
+                    data: JSON.stringify({ "bid": window.udatap['bid'], "calendar": jmsg }),
+                    contentType: 'application/json',
+                    type: 'POST'
+                }).done(function () {
+                    $("#b1").html("Successfully uploaded, updating...");
+                    sendreq();  // Refresh
+                });
+                $("#b1").html("Uploading...");
+            },
+            error: function (data, e) {
+                alert(e);
+                return;
+            }
+        });
+    });
+}
+
+function loadupdate() {
+    loadppt();
+    loadcheck();
+    loadcourse();
+    updatecheck();
+    updateCB();
+}
+
 function displaydata(data) {
     window.isupdating = 0;
     if (window.dpmode != 1) {
         // One column
         $("#b1").html(data);
-        loadcheck();
-        updatecheck();
-        updateCB();
+        loadupdate();
         return;
     }
     let mystr = String(data);
@@ -109,15 +159,12 @@ function displaydata(data) {
         }
         $("#b1").html(mystr.substring(0, lastc + 4));
     }
-    loadcheck();
-    updatecheck();
-    updateCB();
+    loadupdate();
 }
 
 function getcache() {
     if (window.udatap['bid']) {
-        $("#b1").text("hi1");
-        $.ajax("http://yydbxx.cn/test/canvas/readcache.php", {
+        $.ajax("https://yydbxx.cn/test/canvas/readcache.php", {
             data: "{\"bid\":\"" + window.udatap['bid'] + "\"}",
             contentType: 'application/json',
             type: 'POST',
@@ -140,7 +187,7 @@ function sendreq() {
         $("#b1").html("Please check your bid");
         return;
     }
-    $.ajax("http://yydbxx.cn/test/canvas/make.php", {
+    $.ajax("https://yydbxx.cn/test/canvas/make.php", {
         data: window.udata,
         contentType: 'application/json',
         type: 'POST',
@@ -171,19 +218,31 @@ function getIndex(str, s) {
     return pa;
 }
 
+function fixedEncodeURIComponent(str) {
+    return str.replace(/[!'()*]/g, function (c) {
+        return '%' + c.charCodeAt(0).toString(16);
+    });
+}
+
 function add_bg() {
     if (window.bgimage) {
-        $('head').append('<style>body, .box::before{background: url(' + window.bgimage + ') 0 / cover fixed;}</style>');
+        $('head').append('<style>body, .box::before{background: url(' + fixedEncodeURIComponent(window.bgimage) + ') 0 / cover fixed;}</style>');
         return;
     }
     if (window.prop.background_image && window.prop.background_image.value.length > 5) {
         const bgv = window.prop.background_image.value;
         const bgpath = 'file:///' + bgv;
-        $('head').append('<style>body, .box::before{background: url(' + bgpath + ') 0 / cover fixed;}</style>');
+        $('head').append('<style>body, .box::before{background: url(' + fixedEncodeURIComponent(bgpath) + ') 0 / cover fixed;}</style>');
         window.bgimage = bgpath;
     } else {
         $('head').append('<style>body, .box::before{background: url(./img/bg.jpg) 0 / cover fixed;}</style>');
         window.bgimage = './img/bg.jpg';
+    }
+}
+
+function setVideobg() {
+    if (window.udatap['video']) {
+        $("body").append('<video class="bgvideo" playsinline autoplay muted loop><source src="' + window.udatap['video'] + '" type="video/ogg"></video>');
     }
 }
 
@@ -192,6 +251,7 @@ window.notice = function () {
     add_bg();
     if (properties.user_data && !window.udata) {
         if (properties.user_data.value) {
+            window.oudata = properties.user_data.value;
             $.get('file:///' + properties.user_data.value + '/user_data.json', function (data) {
                 window.udata = data;
                 try {
@@ -204,6 +264,8 @@ window.notice = function () {
                 if (window.dpmode == 2) {
                     setpos();
                 }
+                setVideobg();
+                $("#b1").html("Updating...");
                 getcache();
                 window.isupdating = 1;
                 sendreq();
@@ -246,6 +308,8 @@ window.notice = function () {
 
 function showerrer() {
     $(".box").css("visibility", "visible");
+    clearDrag(document.getElementById("hd"));
+    clearDrag(document.getElementById("c1"));
 }
 
 function showup() {
@@ -254,6 +318,28 @@ function showup() {
     $("#rfsbox").css("visibility", "visible");
 }
 
+var loadJS = function(url, implementationCode, location){
+    //url is URL of external file, implementationCode is the code
+    //to be called from the file, location is the location to 
+    //insert the <script> element
+
+    var scriptTag = document.createElement('script');
+    scriptTag.src = url;
+
+    scriptTag.onload = implementationCode;
+    scriptTag.onreadystatechange = implementationCode;
+
+    location.appendChild(scriptTag);
+};
+
+var initScrollBar = function(){
+    document.querySelector('.foo').fakeScroll({
+        track : "smooth"
+    });
+}
+
+loadJS('https://res.yydbxx.cn/server/static/canvas/fakescroll.min.js', initScrollBar, document.head);
+
 $(document).ready(function () {
     if ($(".mainwindow").length) {
         // Old version
@@ -261,15 +347,15 @@ $(document).ready(function () {
         return;
     }
     // Init
-    $("body").append('<div class="box" id="c1"><div class="innerbox" id="b1"></div><div id="hd" class="resizer"><img id="resizeicon" width="50px" height="50px" src="http://yydbxx.cn/test/canvas/res/resize.svg"></div><img class="refreshicon" id="rfsbox" src="http://yydbxx.cn/test/canvas/res/refresh.svg"></div>');
+    $("body").append('<div class="box" id="c1"><div class="foo"><div class="innerbox" id="b1"></div></div><div id="hd" class="resizer"><img id="resizeicon" width="50px" height="50px" src="https://res.yydbxx.cn/server/static/canvas/resize.svg"></div><img class="refreshicon" id="rfsbox" src="https://res.yydbxx.cn/server/static/canvas/refresh.svg"></div>');
     $("body").append('<div class="box" id="c2"><div class="innerbox" id="b2"></div></div>');
-    // $("body").append('');
+    
+
     window.notice();
     $('#c2').hide();
     if (window.dpmode != 2) {
         $("#hd").hide();
     }
-
     dragElement_no(document.getElementById("hd"));
     dragElement(document.getElementById("c1"));
 
@@ -283,9 +369,27 @@ $(document).ready(function () {
         $("#b1").html("Updating...");
         sendreq();
     });
+    
+    setInterval(soft_refresh, 60 * 1000);
 
 });
 
+function soft_refresh() {
+    // Soft refresh
+    if (window.isupdating) {
+        return;
+    }
+    window.isupdating = 1;
+    // $("#b1").prepend("<i>Self refreshing...</i>");
+    sendreq();
+}
+
+function clearDrag(elmnt) {
+    // Cleaer the drug event
+    elmnt.onmousedown = null;
+    document.onmouseup = null;
+    document.onmousemove = null;
+}
 
 function dragElement(elmnt) {
     if (window.dpmode != 2) return;
@@ -350,7 +454,7 @@ function dragElement_no(elmnt) {
         pos2 = pos4 - e.clientY;
         pos3 = e.clientX;
         pos4 = e.clientY;
-        if(mydiv.offsetWidth - pos1<100 || mydiv.offsetHeight - pos2<100){
+        if (mydiv.offsetWidth - pos1 < 100 || mydiv.offsetHeight - pos2 < 100) {
             closeDragElement();
             return;
         }
@@ -374,7 +478,7 @@ function sendpos() {
     let h = mydiv.offsetHeight;
     // Send box position
     const smsg = { "bid": window.udatap['bid'], "type": "set", "left": x, "top": y, "height": h, "width": w };
-    $.ajax("http://yydbxx.cn/test/canvas/position.php", {
+    $.ajax("https://yydbxx.cn/test/canvas/position.php", {
         data: JSON.stringify(smsg),
         contentType: 'application/json',
         type: 'POST'
@@ -383,7 +487,7 @@ function sendpos() {
 
 function setpos() {
     const smsg = { "bid": window.udatap['bid'], "type": "get" };
-    $.ajax("http://yydbxx.cn/test/canvas/position.php", {
+    $.ajax("https://yydbxx.cn/test/canvas/position.php", {
         data: JSON.stringify(smsg),
         contentType: 'application/json',
         type: 'POST'
