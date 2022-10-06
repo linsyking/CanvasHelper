@@ -83,7 +83,7 @@ A wallpaper engine web wallpaper.
 
 ### 其他说明
 
-您可以自行修改css和html文件。在壁纸右下角有一个蓝色的`Refresh`，点击它会重新拉取通知。
+您可以自行修改css和html文件。
 
 设置好文件夹后如果无法显示，可能需要重新加载壁纸。
 
@@ -165,19 +165,7 @@ courses节点下：
 
 该功能可以让您查看即将上的课程。目前只有密院学生能使用该功能。
 
-<img src="http://img.yydbxx.cn/github/CanvasHelper/calendar_preview.png" style="zoom:80%;" />
-
-首先，登录[选课网站](https://coursesel.umji.sjtu.edu.cn)，登录后先按F12打开DevTools，选到“Network”选项卡，然后在网页中打开“我的课表”，再在DevTools中找到含有`findWeekCalendar_LessonCalendar`字样的POST请求，复制其Response，在壁纸文件夹中新建`calendar.json`，将刚才复制的Response粘贴进去。
-
-<img src="http://img.yydbxx.cn/github/CanvasHelper/explain_calendar.png" style="zoom:50%;" />
-
-然后，在`user_data.json`文件中的根节点下设置属性：
-
-```json
-"calendar": 1
-```
-
-最后，重新加载壁纸，在桌面点击上传图标即可完成上传。文件只需上传一次（备份在云端），如果要更改课表，请重新上传。
+由于该功能出现一些Bug，暂时不提供使用方法。
 
 ## 特性/支持
 
