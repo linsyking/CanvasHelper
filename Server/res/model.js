@@ -132,34 +132,10 @@ function loadupdate() {
 
 function displaydata(data) {
     window.isupdating = 0;
-    if (window.dpmode != 1) {
-        // One column
-        $("#b1").html(data);
-        loadupdate();
-        return;
-    }
-    let mystr = String(data);
-    let len = mystr.split('\n').length;
-    const fall = 20;
-    if (len <= fall) {
-        // Hide c2
-        $("#c2").hide();
-        $("#b1").html(data);
-    } else {
-        let an = getIndex(mystr, "\n");
-        let pos = an[fall];
-        let lastc = mystr.lastIndexOf("</p>", pos);
-        let dl = mystr.substring(lastc + 5);
-        if (dl.length <= 3) {
-            // Hide c2
-            $("#c2").hide();
-        } else {
-            $("#c2").show();
-            $("#b2").html(dl);
-        }
-        $("#b1").html(mystr.substring(0, lastc + 4));
-    }
+    // One column
+    $("#b1").html(data);
     loadupdate();
+    return;
 }
 
 function getcache() {
@@ -169,7 +145,6 @@ function getcache() {
             contentType: 'application/json',
             type: 'POST',
             error: function (data) {
-                $("#c2").hide();
                 $("#b1").text("Please check your Internet connection");
                 window.isupdating = 0;
             }
@@ -192,7 +167,6 @@ function sendreq() {
         contentType: 'application/json',
         type: 'POST',
         error: function (data) {
-            $("#c2").hide();
             $("#b1").text("Please check your Internet connection");
             window.isupdating = 0;
         }
@@ -234,10 +208,7 @@ function add_bg() {
         const bgpath = 'file:///' + bgv;
         $('head').append('<style>body, .box::before{background: url(' + fixedEncodeURIComponent(bgpath) + ') 0 / cover fixed;}</style>');
         window.bgimage = bgpath;
-    } else {
-        $('head').append('<style>body, .box::before{background: url(./img/bg.jpg) 0 / cover fixed;}</style>');
-        window.bgimage = './img/bg.jpg';
-    }
+    } 
 }
 
 function setVideobg() {
@@ -261,9 +232,7 @@ window.notice = function () {
                     showerrer();
                     return;
                 }
-                if (window.dpmode == 2) {
-                    setpos();
-                }
+                setpos();
                 setVideobg();
                 $("#b1").html("Updating...");
                 getcache();
@@ -273,37 +242,29 @@ window.notice = function () {
                 $("#b1").html("Cannot read <i>user_data.json</i> file, please double check the <b>directory</b> you set");
                 showerrer();
             });
+            // Get version
+            $.get('file:///' + properties.user_data.value + '/project.json', function (data) {
+                try {
+                    window.projectinfo = JSON.parse(data);
+                } catch (e) {
+                    $("#b1").html("<b>project.json parse error</b>\n<p>" + e + "</p>");
+                    showerrer();
+                    return;
+                }
+                if(window.projectinfo["version"]<=6){
+                    // Old version
+                    // oldversion();
+                    // return;
+                }
+            }, 'text');
         } else {
             $("#b1").html("Please set your directory");
             showerrer();
         }
     }
-    if (properties.layout) {
-        let displaymode = properties.layout.value;
-        window.dpmode = displaymode;
-        if (displaymode == 1) {
-            // Plsane
-            // Default
-            if (window.modified) {
-                $("#b1").html("<b>To make this work, you need to restart this wallpaper</b>");
-            }
-            // $("#c2").show();
-            showup();
-            $(".innerbox").css("overflow", "hidden");
-            window.modified = 1;
-        }
-        if (displaymode == 2) {
-            // One Right
-            if (window.modified) {
-                $("#b1").html("<b>To make this work, you need to restart this wallpaper</b>");
-                showerrer();
-            }
-            $("#c2").remove();
-            $("#c1").css("position", "absolute");
-            $("#c1").addClass("rightbox");
-            window.modified = 1;
-        }
-    }
+    // One Right
+    $("#c1").css("position", "absolute");
+    $("#c1").addClass("rightbox");
 }
 
 function showerrer() {
@@ -340,22 +301,21 @@ var initScrollBar = function(){
 
 loadJS('https://res.yydbxx.cn/server/static/canvas/fakescroll.min.js', initScrollBar, document.head);
 
+function oldversion(){
+    window.location.href="https://yydbxx.cn/test/canvas/res/update.html";
+}
+
 $(document).ready(function () {
     if ($(".mainwindow").length) {
         // Old version
-        $(".mainwindow").html("<h1>请更新壁纸！</h1>\n<b>提示：您需要将壁纸从Wallpaper Engine中删除后重新下载安装才能生效。</b>\n<p>注：该更新版本为最后一个版本，您以后无需再更新！谢谢您的支持！</p>")
+        oldversion();
         return;
     }
     // Init
     $("body").append('<div class="box" id="c1"><div class="foo"><div class="innerbox" id="b1"></div></div><div id="hd" class="resizer"><img id="resizeicon" width="50px" height="50px" src="https://res.yydbxx.cn/server/static/canvas/resize.svg"></div><img class="refreshicon" id="rfsbox" src="https://res.yydbxx.cn/server/static/canvas/refresh.svg"></div>');
-    $("body").append('<div class="box" id="c2"><div class="innerbox" id="b2"></div></div>');
     
 
     window.notice();
-    $('#c2').hide();
-    if (window.dpmode != 2) {
-        $("#hd").hide();
-    }
     dragElement_no(document.getElementById("hd"));
     dragElement(document.getElementById("c1"));
 
@@ -365,7 +325,6 @@ $(document).ready(function () {
             return;
         }
         window.isupdating = 1;
-        $('#c2').hide();
         $("#b1").html("Updating...");
         sendreq();
     });
@@ -392,7 +351,6 @@ function clearDrag(elmnt) {
 }
 
 function dragElement(elmnt) {
-    if (window.dpmode != 2) return;
     var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
     elmnt.onmousedown = dragMouseDown;
 
@@ -429,7 +387,6 @@ function dragElement(elmnt) {
 }
 
 function dragElement_no(elmnt) {
-    if (window.dpmode != 2) return;
     var mydiv = document.getElementById("c1");
     // mydiv.style.top = mydiv.offsetTop + "px";
     // mydiv.style.left = mydiv.offsetLeft + "px";
