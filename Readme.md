@@ -11,7 +11,7 @@ A wallpaper engine web wallpaper.
 
 ![](https://res.yydbxx.cn/server/static/canvas/snapshots/s1.png)
 
-**所有勾选的选项会同步到我们服务器端**
+所有勾选的选项会同步到我们服务器端（[解释](https://github.com/linsyking/CanvasHelper#%E9%9A%90%E7%A7%81%E9%97%AE%E9%A2%98)）
 
 ## 使用说明
 
@@ -145,7 +145,9 @@ courses节点下：
 
 ## 隐私问题
 
-说明：服务器端我们没有保存Access code，仅保存了SHA1后的Access code、用户勾选的Checkbox信息和Box位置信息。之后可能会开发本地服务器。
+由于Wallpaper Engine Web的安全限制，我们无法在壁纸内存储任何数据，因此只能将其传至服务器上。之后我们可能会开发本地服务器来解决这个问题。
+
+说明：服务器端我们没有保存Access code，仅保存了SHA1后的Access code、用户勾选的Checkbox信息和Box位置信息。
 
 ## 实验性功能
 
@@ -167,7 +169,7 @@ courses节点下：
 
 该功能可以让您查看即将上的课程。目前只有密院学生能使用该功能。
 
-由于该功能出现一些[Bug](#6)，暂时不提供使用方法。
+由于该功能出现一些[Bug](https://github.com/linsyking/CanvasHelper/issues/6)，暂时不提供使用方法。
 
 ## 特性/支持
 
@@ -208,8 +210,8 @@ You can open an issue and report your problems.
 
 ## Known Bugs
 
-- Calendar not working (#6)
-- Scrollbar script not loading (#5)
+- Calendar not working (https://github.com/linsyking/CanvasHelper/issues/6)
+- Scrollbar script not loading (https://github.com/linsyking/CanvasHelper/issues/5)
 
 ## Contact
 
