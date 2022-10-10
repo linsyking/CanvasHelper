@@ -1,8 +1,6 @@
 # Canvas Helper
 A wallpaper engine web wallpaper.
 
-**说明：服务器端我们没有保存例如Access code等隐私数据，仅保存了加密（sha1）后的Access code、用户勾选的Checkbox信息和Box位置信息**
-
 ---
 
 ## 效果展示
@@ -145,6 +143,10 @@ courses节点下：
 
 通过提示框，您可以复制这些文字。
 
+## 隐私问题
+
+说明：服务器端我们没有保存Access code，仅保存了SHA1后的Access code、用户勾选的Checkbox信息和Box位置信息。之后可能会开发本地服务器。
+
 ## 实验性功能
 
 ### 视频壁纸
@@ -165,7 +167,7 @@ courses节点下：
 
 该功能可以让您查看即将上的课程。目前只有密院学生能使用该功能。
 
-由于该功能出现一些Bug，暂时不提供使用方法。
+由于该功能出现一些[Bug](#6)，暂时不提供使用方法。
 
 ## 特性/支持
 
@@ -188,21 +190,26 @@ courses节点下：
 
 `Client`文件夹包含客户端代码（Wallpaper engine项目文件）
 
-**更新之后原本Client的大部分迁移到了Server端（方便更新）**
-
-因为可能频繁更新，所以本仓库只有在大更新（版本变化）时才会更新客户端源码，需要查看最新客户端源码可以从以下地址下载：
+客户端真正用到的代码托管在CDN上，可以通过以下链接访问：
 
 <https://res.yydbxx.cn/server/static/canvas/model.js>
 
 <https://res.yydbxx.cn/server/static/canvas/style.css>
-
-有问题发issue，或者发pr，谢谢。
 
 ## Code Issue
 
 - [ ] 使用`canvasapi`获取Canvas数据
 - [ ] 优化`model.js`
 - [ ] 优化`calendar_parser`
+
+## Bug Report
+
+You can open an issue and report your problems.
+
+## Known Bugs
+
+- Calendar not working (#6)
+- Scrollbar script not loading (#5)
 
 ## Contact
 
