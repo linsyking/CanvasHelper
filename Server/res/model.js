@@ -172,6 +172,7 @@ function sendreq() {
         }
     }).done(function (data) {
         window.isonline = true;
+        initScrollBar();
         $("#resizeicon").addClass("ftg");
         displaydata(data);
     });
@@ -208,7 +209,7 @@ function add_bg() {
         const bgpath = 'file:///' + bgv;
         $('head').append('<style>body, .box::before{background: url(' + fixedEncodeURIComponent(bgpath) + ') 0 / cover fixed;}</style>');
         window.bgimage = bgpath;
-    } 
+    }
 }
 
 function setVideobg() {
@@ -251,7 +252,7 @@ window.notice = function () {
                     showerrer();
                     return;
                 }
-                if(window.projectinfo["version"]<=6){
+                if (window.projectinfo["version"] <= 6) {
                     // Old version
                     // oldversion();
                     // return;
@@ -279,7 +280,7 @@ function showup() {
     $("#rfsbox").css("visibility", "visible");
 }
 
-var loadJS = function(url, implementationCode, location){
+var loadJS = function (url, implementationCode, location) {
     //url is URL of external file, implementationCode is the code
     //to be called from the file, location is the location to 
     //insert the <script> element
@@ -293,16 +294,21 @@ var loadJS = function(url, implementationCode, location){
     location.appendChild(scriptTag);
 };
 
-var initScrollBar = function(){
-    document.querySelector('.foo').fakeScroll({
-        track : "smooth"
-    });
+var initScrollBar = function () {
+    if (document.querySelector('.foo').fakeScroll && (!document.querySelector('.fakeScroll__content'))) {
+        document.querySelector('.foo').fakeScroll({
+            track: "smooth"
+        });
+        console.log("Initialize Scrollbar Done!");
+    } else {
+        console.log("Cannot initialize scrollbar");
+    }
 }
 
 loadJS('https://res.yydbxx.cn/server/static/canvas/fakescroll.min.js', initScrollBar, document.head);
 
-function oldversion(){
-    window.location.href="https://yydbxx.cn/test/canvas/res/update.html";
+function oldversion() {
+    window.location.href = "https://yydbxx.cn/test/canvas/res/update.html";
 }
 
 $(document).ready(function () {
@@ -313,7 +319,7 @@ $(document).ready(function () {
     }
     // Init
     $("body").append('<div class="box" id="c1"><div class="foo"><div class="innerbox" id="b1"></div></div><div id="hd" class="resizer"><img id="resizeicon" width="50px" height="50px" src="https://res.yydbxx.cn/server/static/canvas/resize.svg"></div><img class="refreshicon" id="rfsbox" src="https://res.yydbxx.cn/server/static/canvas/refresh.svg"></div>');
-    
+
 
     window.notice();
     dragElement_no(document.getElementById("hd"));
@@ -328,7 +334,7 @@ $(document).ready(function () {
         $("#b1").html("Updating...");
         sendreq();
     });
-    
+
     setInterval(soft_refresh, 60 * 1000);
 
 });
