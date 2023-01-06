@@ -2,7 +2,7 @@
 
 A wallpaper engine web wallpaper.
 
-**This version of CanvasHelper is deprecated. Please use <https://github.com/linsyking/CanvasHelper-2>.**
+**This version of CanvasHelper is deprecated. Please use <https://github.com/linsyking/CanvasHelper2>.**
 
 ---
 
